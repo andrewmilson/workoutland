@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="callisthenicstimer">
   <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
@@ -8,52 +8,23 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/open-sans.css">
-    <link rel="stylesheet" href="css/grid-system.css">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="js/create.js"></script>
+    <script src="js/workout.js"></script>
+    <script src="js/workouts.js"></script>
+    <script src="js/app.js"></script>
   </head>
   <body>
     <div class="nav">
       <div id="container">
-        <a href="#">CREATE</a>
-        <a href="#">WORKOUTS</a>
-        <a href="#">LOGIN</a>
+        <a href="#/create">CREATE</a>
+        <a href="#/workouts">WORKOUTS</a>
+        <a href="#/login">LOGIN</a>
       </div>
     </div>
-    <div ui-view id="view">
-      <!-- <ul class="list">
-        <li class="grid">
-          <div class="col-9">
-            <h3>Abdominal Assault <br><small>@bigbrandoncarter</small></h3>
-          </div>
-          <div class="col-3 text-right">
-            <h3>20:15<br><small>mins</small></h3>
-          </div>
-        </li>
-        <li class="grid">
-          <div class="col-9">
-            <h3>Ab Shredder #5<br><small>@brandonmyers</small></h3>
-          </div>
-          <div class="col-3 text-right">
-            <h3>2:30<br><small>mins</small></h3>
-          </div>
-        </li>
-      </ul> -->
-      <form action="">
-        <input class="form-control" type="text" placeholder="username">
-        <input class="form-control" type="password" placeholder="password">
-        <input type="submit" class="btn btn-default" value="Log In">
-      </form>
-      <hr>
-      <form action="">
-        <input class="form-control" type="text" placeholder="username">
-        <input class="form-control" type="email" placeholder="email">
-        <input class="form-control" type="password" placeholder="password">
-        <input type="submit" class="btn btn-default" value="Sign Up">
-      </form>
-      <hr>
-      <form action="">
-        <input class="form-control" type="email" placeholder="email">
-        <input type="submit" class="btn btn-default" value="Reset Password">
-      </form>
-    </div>
+    <div ui-view id="view"></div>
   </body>
 </html>
