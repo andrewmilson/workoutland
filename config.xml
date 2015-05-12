@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget
+  id="com.andrewmilson.callisthenicstimer"
+  android-versionCode="1"
+  version="1.0"
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Callisthenics Timer</name>
+    <description>A better timer for callisthenics!</description>
+    <author href="http://andrewmilson.com">Andrew Milson</author>
+
+    <preference name="Orientation" value="portrait"/>
+    <preference name="webviewbounce" value="true"/>
+    <preference name="disallowOverscroll" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+
+    <content src="index.html" />
+    <access origin="geo:*" launch-external="yes"/>
+    <access origin="mailto:*" launch-external="yes"/>
+    <access origin="http://maps.google.com/*" launch-external="yes"/>
+    <access origin="*" />
+</widget>
