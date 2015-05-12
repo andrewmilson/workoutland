@@ -1,8 +1,8 @@
-* {
+*, *:after, *:before {
   box-sizing: border-box;
 }
 
-body, html {
+body , html {
   height: 100%;
   width: 100%;
   padding: 0;
@@ -13,14 +13,128 @@ body, html {
 }
 
 body {
-  padding-top: 60px;
+  padding: 68px 8px 8px 8px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  font-weight: 800;
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
+  font-weight: 400;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+[class*='col-'] {
+  float: left;
+}
+
+.col-1 {
+  width: 8.33%;
+}
+.col-2 {
+  width: 16.67%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-4 {
+  width: 33.33%;
+}
+.col-5 {
+  width: 41.66%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-7 {
+  width: 58.33%;
+}
+.col-8 {
+  width: 66.67%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-10 {
+  width: 83.33%;
+}
+.col-11 {
+  width: 91.66%;
+}
+.col-12 {
+  width: 100%;
+}
+
+.grid:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.form-control {
+  width: 100%;
+  background: #BBAAA0;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+::-webkit-input-placeholder {
+    color: inherit;
+  opacity: 0.5;
+}
+:-moz-placeholder {
+  color: inherit;
+  opacity: 0.5;
+}
+::-moz-placeholder {
+  color: inherit;
+  opacity: 0.5;
+}
+:-ms-input-placeholder {
+  color: inherit;
+  opacity: 0.5;
+}
+
+.btn {
+  padding: 8px;
+  font-weight: bold;
+  border: none;
+  color: #eee4da;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.btn-default {
+  background: #776E65;
+}
+
+hr {
+  border-color: transparent;
+  margin: 10px 0;
 }
 
 .nav {
   display: table;
   table-layout: fixed;
-  margin: -60px 0 0 0;
+  margin: 0;
   height: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   text-align: center;
   background: #776E65;
@@ -37,4 +151,17 @@ body {
   vertical-align: middle;
   text-decoration: none;
   display: table-cell;
+}
+
+.list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.list li {
+  margin: 0 8px;
+  padding: 8px;
+  border-radius: 5px;
+  background: #CDC1B5;
 }
