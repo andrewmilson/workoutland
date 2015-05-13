@@ -1,4 +1,6 @@
 <form name="form">
+  <input ng-required="true" class="form-control" type="text" ng-model="workout.name" placeholder="Workout name">
+  <hr>
   <div class="form-group" ng-repeat="step in steps">
     <div>#{{ $index + 1 }} <span ng-click="remove($index)">- remove</span></div>
     <input ng-required="true" class="form-control" type="text" ng-model="step.name" placeholder="Exercise name">
