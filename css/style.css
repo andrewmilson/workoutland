@@ -12,6 +12,10 @@ body , html {
   background: #faf8ef;
 }
 
+a {
+  color: inherit;
+}
+
 body {
   padding: 68px 8px 8px 8px;
 }
@@ -32,6 +36,10 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
 
 .text-left {
   text-align: left;
+}
+
+.text-center {
+  text-align: center;
 }
 
 [class*='col-'] {
@@ -214,8 +222,7 @@ hr {
 #steps {
   padding: 0;
   margin: 0;
-  position: absolute;
-  bottom: 100%;
+  padding: 0 16px;
 }
 
 #steps li {
@@ -225,14 +232,18 @@ hr {
 }
 
 #current {
-  background: #776E65;
-  padding: 16px;
   color: #eee4da;
-  border-radius: 8px;
   position: absolute;
   bottom: 8px;
   left: 8px;
   right: 8px;
+}
+
+#current #info {
+  padding: 16px;
+  border-radius: 8px;
+  background: #776E65;
+  margin-bottom: 8px;
 }
 
 @media screen and (min-width: 650px) {
