@@ -85,8 +85,15 @@ input {
   outline: none;
 }
 
-.form-control {
-  width: 100%;
+input[disabled] {
+  opacity: 0.5;
+}
+
+input[type=number]{
+    width: 60px;
+}
+
+input {
   background: #BBAAA0;
   color: #fff;
   border-radius: 5px;
@@ -96,6 +103,11 @@ input {
   padding: 8px;
   margin-bottom: 8px;
 }
+
+.form-control {
+  width: 100%;
+}
+
 ::-webkit-input-placeholder {
     color: inherit;
   opacity: 0.5;
@@ -114,9 +126,10 @@ input {
 }
 
 .btn {
-  padding: 8px;
+  padding: 8px 10px;
   font-weight: bold;
   border: none;
+  display: inline-block;
   color: #eee4da;
   border-radius: 5px;
   font-size: 18px;
@@ -125,6 +138,19 @@ input {
 .btn-default {
   background: #776E65;
 }
+.btn-danger {
+  background: #F65D3B;
+}
+.btn-success {
+  background: #5EDA92;
+}
+
+.text-danger {
+  color: #F65D3B;
+}
+.text-success {
+  color: #5EDA92;
+}
 
 hr {
   border-color: transparent;
@@ -132,14 +158,23 @@ hr {
 }
 
 .nav {
-  display: table;
-  table-layout: fixed;
-  margin: 0;
   height: 60px;
-  position: absolute;
+  position: fixed;
+  z-index: 2;
   top: 0;
   left: 0;
   width: 100%;
+  text-align: center;
+  padding: 0;
+  font-weight: 400;
+}
+
+.nav-inner {
+  display: table;
+  table-layout: fixed;
+  height: 100%;
+  width: 100%;
+  margin: auto;
   text-align: center;
   background: #776E65;
   padding: 0;
@@ -155,6 +190,12 @@ hr {
   vertical-align: middle;
   text-decoration: none;
   display: table-cell;
+}
+
+#view {
+  margin: auto;
+  position: relative;
+  height: 100%;
 }
 
 .list {
@@ -192,4 +233,23 @@ hr {
   bottom: 8px;
   left: 8px;
   right: 8px;
+}
+
+@media screen and (min-width: 650px) {
+  body {
+    padding: 80px 0 0 0;
+  }
+
+  .nav {
+    top: 10px;
+  }
+
+  .nav .nav-inner {
+    width: 600px;
+    border-radius: 5px;
+  }
+
+  #view {
+    width: 600px;
+  }
 }

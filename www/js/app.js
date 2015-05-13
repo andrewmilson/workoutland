@@ -1,4 +1,7 @@
-angular.module('callisthenicstimer', ['ui.router'])
+angular.module('callisthenicstimer', [
+  'ui.router',
+  'createController'
+])
 
 .config(
 ['$stateProvider', '$urlRouterProvider', '$compileProvider',
