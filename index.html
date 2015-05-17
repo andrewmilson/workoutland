@@ -1,32 +1,56 @@
 <!DOCTYPE html>
-<html ng-app="callisthenicstimer">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,minimum-scale=1.0,user-scalable=no">
-    <title>Callisthenics timer</title>
+    <title>Workout Land</title>
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/open-sans.css">
     <link rel="stylesheet" href="fonts/icomoon/style.css">
 
+    <script>window.website = 'workout.land'</script>
+    <script src="js/mespeak.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="js/create.js"></script>
     <script src="js/workout.js"></script>
     <script src="js/workouts.js"></script>
     <script src="js/app.js"></script>
+    <script src="cordova.js"></script>
   </head>
   <body>
-    <div class="nav">
+    <div class="nav nav-top">
       <div class="nav-inner">
         <div id="container">
-          <a href="#/create">CREATE</a>
-          <a href="#/workouts">WORKOUTS</a>
-          <a href="#/login">LOGIN</a>
+          <a href="#/c">CREATE</a>
+          <a href="#/w">WORKOUTS</a>
         </div>
       </div>
     </div>
     <div ui-view id="view"></div>
+    <script>
+      function bootstrapAngular() {
+        meSpeak.loadConfig("js/mespeak_config.json");
+        meSpeak.loadVoice('js/en-us.json');
+        angular.bootstrap(document.body, ['workoutland']);
+      }
+
+      if (/^file/.test(location.protocol)) {
+        document.addEventListener('deviceready', function() {
+          bootstrapAngular()
+          navigator.tts.startup()
+          window.webintent.getUri(function(uri) {
+            if (!/^http/.test(uri)) return;
+            var workoutId = /^(?:[^\/]*(?:\/(?:\/[^\/]*\/?)?)?([^?]+)(?:\??.+)?)$/.exec(uri)[1];
+            window.location.replace('#/' + workoutId);
+          }, false);
+        });
+      } else {
+        bootstrapAngular();
+      }
+    </script>
   </body>
 </html>

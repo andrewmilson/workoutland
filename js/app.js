@@ -1,33 +1,37 @@
-angular.module('callisthenicstimer', [
+angular.module('workoutland', [
   'ui.router',
-  'createController'
+  'workoutsController',
+  'createController',
+  'workoutController'
 ])
 
 .config(
-['$stateProvider', '$urlRouterProvider', '$compileProvider',
-function($stateProvider, $urlRouterProvider, $compileProvider) {
-  $urlRouterProvider.otherwise('/workouts');
+['$stateProvider', '$urlRouterProvider', '$compileProvider', '$locationProvider',
+function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider) {
+  if (/^http/.test(location.protocol)) $locationProvider.html5Mode(true);
+  $urlRouterProvider.otherwise('/w');
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps):/);
 
   $stateProvider
   .state('workouts', {
-    url: '/workouts',
+    url: '/w',
     templateUrl: 'views/workouts.html',
     controller: 'workoutsController'
   })
-  .state('workout', {
-    url: '/workout',
-    templateUrl: 'views/workout.html',
-    controller: 'workoutController'
-  })
   .state('create', {
-    url: '/create',
+    url: '/c',
     templateUrl: 'views/create.html',
     controller: 'createController'
   })
-  .state('login', {
-    url: '/login',
-    templateUrl: 'views/login.html',
-    controller: 'loginController'
+  .state('workout', {
+    url: '/:id',
+    templateUrl: 'views/workout.html',
+    controller: 'workoutController'
   });
+}])
+
+.run([
+'$rootScope',
+function($rootScope) {
+  $rootScope.website = website;
 }]);

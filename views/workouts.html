@@ -1,11 +1,12 @@
 <ul class="list">
-  <li class="grid">
-    <a href="#/workout">
-      <div class="col-9">
-        <h3>Abdominal Shredder<br><small>@brandonmyers</small></h3>
-      </div>
-      <div class="col-3 text-right">
-        <h3>2:30<br><small>mins</small></h3>
+  <li class="grid" ng-repeat="workout in workouts">
+    <a href="#/w/{{ workout.id }}">
+      <div class="col-12">
+        <h3>
+          {{ workout.name }}<br>
+          <small>{{ website }}/{{ workout.id }}</small><br>
+          <small>{{ workout.time / 60 | floor }} minutes {{ workout.time % 60 }} seconds</small>
+        </h3>
       </div>
     </a>
   </li>

@@ -2,7 +2,7 @@
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 800;
-  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(../fonts/open-sans/Extrabold.ttf);
+  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(../fonts/open-sans/ExtraBold.ttf);
 }
 
 @font-face {
