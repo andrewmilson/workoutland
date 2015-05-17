@@ -1,59 +1,38 @@
+<div class="nav nav-bottom">
+  <div class="nav-inner">
+    <div id="container" ng-hide="meta.playing">
+      <a ng-click="startWorkout()"><i class="icomoon icon-play3"></i> start</a>
+      <a ng-click="shareWorkout()"><i class="icomoon icon-share3"></i> share</a>
+    </div>
+    <div id="container" ng-show="meta.playing">
+      <a ng-click="toggleWorkout()" ng-hide="meta.paused"><i class="icomoon icon-pause2"></i> pause</a>
+      <a ng-click="toggleWorkout()" ng-show="meta.paused"><i class="icomoon icon-play3"></i> resume</a>
+      <a ng-click="stopWorkout()"><i class="icomoon icon-stop2"></i> stop</a>
+    </div>
+  </div>
+</div>
+
 <div id="current">
   <ul id="steps">
-    <li class="grid">
-      <div class="col-12">
+    <li>
+      <div class="info">
         <h3>
-          Leg raises
-          <br><small>10 reps</small>
+          {{ workout.name }}
+          <br><small>{{ website }}/{{ workout.id }}</small>
+          <br><small><span ng-show="workout.time > 60">{{ workout.time / 60 | floor }} mins</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} seconds</span></small>
         </h3>
       </div>
     </li>
-    <li class="grid">
-      <div class="col-12">
+    <hr>
+    <li class="step" ng-click="goToStep($index, $event)" ng-class="{current: meta.playing && $index == meta.current}" ng-repeat="step in workout.steps">
+      <div class="info">
         <h3>
-          Plank
-          <br><small>10 seconds</small>
+          {{ step.name }}
+          <br><small><span ng-show="step.time > 60">{{ step.time / 60 | floor }} minutes</span> <span ng-show="step.time % 60">{{ step.time % 60 }} seconds</span></small>
         </h3>
-      </div>
-    </li>
-    <li class="grid">
-      <div class="col-12">
-        <h3>
-          Iron Butterflies
-          <br><small>30 seconds</small>
-        </h3>
+        <div class="progress" ng-style="{width: 100 - 100 / step.time * meta.stepProgress + '%'}"></div>
       </div>
     </li>
   </ul>
-
-  <div id="info" class="grid">
-    <div class="col-12">
-      <h3>
-        Ab Shredder #5
-        <br><small>@brandonmyers</small>
-        <br><small>2:30 mins</small>
-      </h3>
-    </div>
-    <!-- <div class="col-3 text-right" style="font-size: 25px; position: absolute; right: 16px; top: 50%; transform: translateY(-50%);">
-      <div class="start">
-        <i class="icomoon icon-pencil"></i>
-        <i class="icomoon icon-play3"></i><br>
-        <i class="icomoon icon-bin"></i>
-        <i class="icomoon icon-share3"></i>
-      </div>
-      <div class="controls">
-        <i class="icomoon icon-pause2"></i>
-        <i class="icomoon icon-stop2"></i><br>
-        <i class="icomoon icon-previous2"></i>
-        <i class="icomoon icon-next2"></i>
-      </div>
-    </div> -->
-  </div>
-  <div class="btn btn-default">start</div>
-  <div class="btn btn-default">delete</div>
-  <div class="btn btn-default">edit</div>
-  <!-- <div class="btn btn-default">pause</div>
-  <div class="btn btn-default">stop</div>
-  <div class="btn btn-default">prev</div>
-  <div class="btn btn-default">next</div> -->
+  <div style="height: 70px;"></div>
 </div>

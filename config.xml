@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget
-  id="com.andrewmilson.callisthenicstimer"
+  id="com.andrewmilson.workoutland"
   android-versionCode="1"
   version="1.0"
   xmlns="http://www.w3.org/ns/widgets"
   xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Callisthenics Timer</name>
-    <description>A better timer for callisthenics!</description>
+    <name>Workout Land</name>
+    <description>Workout timer + planner</description>
     <author href="http://andrewmilson.com">Andrew Milson</author>
 
     <preference name="Orientation" value="portrait"/>
@@ -16,9 +16,10 @@
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
 
-    <content src="index.html" />
+    <icon src="www/img/icon.png"/>
+    <content src="index.html"/>
     <access origin="geo:*" launch-external="yes"/>
     <access origin="mailto:*" launch-external="yes"/>
     <access origin="http://maps.google.com/*" launch-external="yes"/>
-    <access origin="*" />
+    <access origin="*"/>
 </widget>
