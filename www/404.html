@@ -24,7 +24,7 @@
     <script>
       window.isApp = /^file/.test(location.protocol);
 
-      document.write(isApp ? [
+      document.write((isApp ? [
         'bower_components/angular/angular.min.js',
         'bower_components/jquery/dist/jquery.min.js',
         'bower_components/angular-ui-router/release/angular-ui-router.min.js',
@@ -41,8 +41,7 @@
         'js/create.js',
         'js/workout.js',
         'js/workouts.js',
-        'js/app.js',
-        'cordova.js'
+        'js/app.js'
       ]).map(function(s) { return '<script src="' + s + '"></script>' }))
     </script>
   </head>
