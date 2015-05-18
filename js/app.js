@@ -8,7 +8,7 @@ angular.module('workoutland', [
 .config(
 ['$stateProvider', '$urlRouterProvider', '$compileProvider', '$locationProvider',
 function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider) {
-  if (/^http/.test(location.protocol)) $locationProvider.html5Mode(true);
+  // if (/^http/.test(location.protocol)) $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/w');
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps):/);
 

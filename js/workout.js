@@ -9,7 +9,7 @@ function($scope, $timeout, $state, $http) {
       $scope.workout = JSON.parse(localStorage['workout-' + $state.params.id]);
       console.log($scope.workout);
     } else {
-      $http.get('http://workoutland.appspot.com/' + $state.params.id)
+      $http.get('http://workout-land.appspot.com/' + $state.params.id)
       .success(function(workout) {
         $scope.workout = workout;
 

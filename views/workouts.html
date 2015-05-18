@@ -1,6 +1,9 @@
 <ul class="list">
+  <li ng-hide="workouts.length">
+    Hey no workouts yet!
+  </li>
   <li class="grid" ng-repeat="workout in workouts">
-    <a href="#/w/{{ workout.id }}">
+    <a href="#/{{ workout.id }}">
       <div class="col-12">
         <h3>
           {{ workout.name }}<br>

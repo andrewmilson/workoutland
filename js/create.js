@@ -26,7 +26,7 @@ function($scope, $http) {
       delete step.seconds;
     });
 
-    $http.post('http://calisthenics-timer.appspot.com/', workout)
+    $http.post('http://workout-land.appspot.com/', workout)
     .success(function(data) {
       location.replace('#/' + data);
     });

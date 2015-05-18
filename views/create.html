@@ -4,10 +4,12 @@
   <div class="form-group" ng-repeat="step in workout.steps">
     <div>{{ $index + 1 | dateSuffix }} step <span ng-click="removeStep($index)">- remove</span></div>
     <input ng-required="true" class="form-control" type="text" ng-model="step.name" placeholder="Step name">
-    <input ng-required="!step.seconds" type="number" ng-model="step.mins" min="0" size="2" placeholder="0" class="text-right"> min
-    <input ng-required="!step.mins" type="number" ng-model="step.seconds" min="0" size="2" placeholder="0" class="text-right"> sec
+    <input ng-required="true" type="number" ng-model="step.seconds" min="0" placeholder="0" class="text-right"> seconds
     <hr>
   </div>
 </form>
 <input type="submit" class="btn btn-default" ng-click="addStep()" value="Add Exercise"><br>
-<input type="submit" class="btn btn-default" ng-click="createWorkout()" value="Create Workout" ng-disabled="form.$invalid || !workout.steps.length || createDisabled">
+<button class="btn btn-default" ng-click="createWorkout()" ng-disabled="form.$invalid || !workout.steps.length || createDisabled">
+  <span ng-hide="createDisabled">Create Workout</span>
+  <span ng-show="createDisabled">Creating...</span>
+</button>
