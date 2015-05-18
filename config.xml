@@ -16,7 +16,7 @@
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="StatusBarStyle" value="lightcontent" />
 
-    <icon src="www/img/icon.png"/>
+    <icon src="resources/icon.png"/>
     <content src="index.html"/>
     <access origin="geo:*" launch-external="yes"/>
     <access origin="mailto:*" launch-external="yes"/>

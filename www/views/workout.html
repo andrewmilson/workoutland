@@ -13,6 +13,11 @@
 </div>
 
 <div id="current">
+  <div class="grid" style="margin-top: 15px;">
+    <div class="col-6 text-right"><a href="https://play.google.com/store/apps/details?id=com.andrewmilson.workoutland"><img src="img/play-store.png" style="margin-right: 10px;" height="45px" alt=""></a></div>
+    <div class="col-6">Download to play <br>workouts offline!</div>
+  </div>
+  <hr>
   <ul id="steps">
     <li>
       <div class="info">
@@ -28,7 +33,7 @@
       <div class="info">
         <h3>
           {{ step.name }}
-          <br><small><span ng-show="step.time > 60">{{ step.time / 60 | floor }} minutes</span> <span ng-show="step.time % 60">{{ step.time % 60 }} seconds</span></small>
+          <br><small><span class="progress-text">{{ step.time - meta.stepProgress }} / </span>{{ step.time }} seconds</span></small>
         </h3>
         <div class="progress" ng-style="{width: 100 - 100 / step.time * meta.stepProgress + '%'}"></div>
       </div>

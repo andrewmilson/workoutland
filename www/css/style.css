@@ -93,12 +93,12 @@ input {
   outline: none;
 }
 
-input[disabled] {
+*[disabled] {
   opacity: 0.5;
 }
 
 input[type=number]{
-    width: 60px;
+    width: 70px;
 }
 
 input {
@@ -241,8 +241,12 @@ hr {
   border-radius: 8px;
 }
 
-#steps li .progress {
+#steps li .progress, #steps li .progress-text {
   display: none;
+}
+
+#steps li.current .progress-text {
+  display: inline;
 }
 
 #steps li.current .progress {
@@ -281,20 +285,21 @@ hr {
 
 @media screen and (min-width: 550px) {
   body {
-    padding: 80px 0 0 0;
+    padding: 70px 0 0 0;
   }
 
-  .nav.nav-top {
-    top: 10px;
+  .nav.nav-top .nav-inner {
+    border-radius: 0 0 5px 5px;
+    top: 0px;
   }
 
-  .nav.nav-bottom {
-    bottom: 10px;
+  .nav.nav-bottom .nav-inner {
+    border-radius: 5px 5px 0 0;
+    bottom: 0px;
   }
 
   .nav .nav-inner {
     width: 500px;
-    border-radius: 5px;
   }
 
   #view {
