@@ -3,7 +3,7 @@
     Hey no workouts yet!
   </li>
   <li class="grid" ng-repeat="workout in workouts">
-    <a href="#/{{ workout.id }}">
+    <a ng-href="/{{ workout.id }}">
       <div class="col-12">
         <h3>
           {{ workout.name }}<br>

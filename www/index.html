@@ -6,24 +6,12 @@
     <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,minimum-scale=1.0,user-scalable=no">
     <title>Workout Land</title>
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/open-sans.css">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-
-    <script>window.website = 'workout.land'</script>
-    <script src="js/mespeak.js"></script>
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="js/create.js"></script>
-    <script src="js/workout.js"></script>
-    <script src="js/workouts.js"></script>
-    <script src="js/app.js"></script>
-    <script src="cordova.js"></script>
-
     <script>
       window.isApp = /^file/.test(location.protocol);
+      window.website = 'workout.land';
 
+
+      document.write(isApp ? '' : '\<base href=\"/\"\>')
       document.write((isApp ? [
         'bower_components/angular/angular.min.js',
         'bower_components/jquery/dist/jquery.min.js',
@@ -42,21 +30,27 @@
         'js/workout.js',
         'js/workouts.js',
         'js/app.js'
-      ]).map(function(s) { return '<script src="' + s + '"></script>' })
+      ]).map(function(s) {
+        return '\<script src=\"' + s + '\"\>\<\/script\>';
+      }).join(''))
     </script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/open-sans.css">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
   </head>
   <body>
     <div class="nav nav-top">
       <div class="nav-inner">
         <div id="container">
-          <a href="#/c">CREATE</a>
-          <a href="#/w">WORKOUTS</a>
+          <a ng-href="/c">CREATE</a>
+          <a ng-href="/">WORKOUTS</a>
         </div>
       </div>
     </div>
     <div ui-view id="view"></div>
     <script>
-      if (!isApp) document.write('<script src="js/mespeak.js"></script>')
+      if (!isApp) document.write('\<script src=\"js/mespeak.js\"\>\<\/script\>')
     </script>
     <script>
       function loadJS(fimeName){
