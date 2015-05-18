@@ -57,7 +57,7 @@ function($scope, $timeout, $state, $http) {
             setTimeout(function() {
               var step = $scope.workout.steps[i]
               var speechText = step.name + ' ' + (step.time > 60 ? Math.floor(step.time / 60) + ' minutes': '') + (step.time % 60 ? (step.time > 60 ? 'and' : '') + step.time % 60 + ' seconds' : '');
-              if (/^file/.test(location.protocol)) {
+              if (isApp) {
                 navigator.tts.speak(speechText);
               } else {
                 meSpeak.speak(speechText)
@@ -71,7 +71,7 @@ function($scope, $timeout, $state, $http) {
         if (i == $scope.workout.steps.length - 1 && $scope.meta.progress == time) {
           $scope.stopWorkout();
           var speechText = 'workout over';
-          if (/^file/.test(location.protocol)) {
+          if (isApp) {
             navigator.tts.speak(speechText);
           } else {
             meSpeak.speak(speechText)
@@ -131,7 +131,7 @@ function($scope, $timeout, $state, $http) {
   };
 
   $scope.shareWorkout = function() {
-    if (/^file/.test(location.protocol)) {
+    if (isApp) {
       window.plugins.socialsharing.share('http://' + website + '/' + $state.params.id)
     } else {
       window.prompt("Copy workout URL to clipboard: Ctrl+C, Enter", 'http://' + website + '/' + $state.params.id);
