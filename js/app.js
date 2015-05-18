@@ -14,7 +14,7 @@ function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider
 
   $stateProvider
   .state('workouts', {
-    url: '/w',
+    url: '/',
     templateUrl: 'views/workouts.html',
     controller: 'workoutsController'
   })
