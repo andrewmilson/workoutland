@@ -18,15 +18,8 @@ function($scope, $http) {
 
   $scope.createWorkout = function() {
     $scope.createDisabled = true;
-    var workout = angular.copy($scope.workout);
 
-    workout.steps.map(function(step) {
-      step.time = (step.mins || 0) * 60 + (step.seconds || 0);
-      delete step.mins;
-      delete step.seconds;
-    });
-
-    $http.post('http://workout-land.appspot.com/', workout)
+    $http.post('http://workout-land.appspot.com/', $scope.workout)
     .success(function(data) {
       location.replace('#/' + data);
     });
