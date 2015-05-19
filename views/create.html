@@ -1,10 +1,11 @@
 <form name="form">
   <input ng-required="true" class="form-control" type="text" ng-model="workout.name" placeholder="Workout name">
+  <textarea name="notes" ng-model="workout.notes" class="form-control" rows="3" placeholder="Notes etc (optional)"></textarea>
   <hr>
   <div class="form-group" ng-repeat="step in workout.steps">
     <div>{{ $index + 1 | dateSuffix }} step <span ng-click="removeStep($index)">- remove</span></div>
     <input ng-required="true" class="form-control" type="text" ng-model="step.name" placeholder="Step name">
-    <input ng-required="true" type="number" ng-model="step.seconds" min="0" placeholder="0" class="text-right"> seconds
+    <input ng-required="true" type="number" ng-model="step.time" min="0" placeholder="0" class="text-right"> seconds
     <hr>
   </div>
 </form>

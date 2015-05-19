@@ -8,7 +8,7 @@ angular.module('workoutland', [
 .config(
 ['$stateProvider', '$urlRouterProvider', '$compileProvider', '$locationProvider',
 function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider) {
-  if (!isApp) $locationProvider.html5Mode(true);
+  if (!isApp && !isLocalhost) $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/w');
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps):/);
 
@@ -29,6 +29,15 @@ function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider
     controller: 'workoutController'
   });
 }])
+
+.directive('wlHref', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, elm, attr) {
+      elm[0].href = (isApp || isLocalhost ? '#' : '') + attr.wlHref;
+    }
+  }
+})
 
 .run([
 '$rootScope',
