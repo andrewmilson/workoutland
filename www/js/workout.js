@@ -134,7 +134,9 @@ function($scope, $timeout, $state, $http) {
     if (isApp) {
       window.plugins.socialsharing.share('http://' + website + '/' + $state.params.id)
     } else {
-      window.prompt("Copy workout URL to clipboard: Ctrl+C, Enter", 'http://' + website + '/' + $state.params.id);
+      var clippyString = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy" ><param name="movie" value="clippy.swf"/><param name="allowScriptAccess" value="always" /><param name="quality" value="high" /><param name="scale" value="noscale" /><param NAME="FlashVars" value="text=#{text}"><param name="bgcolor" value="#ffffff"><embed src="clippy.swf" width="110" height="14" name="clippy" quality="high" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="text=#{text}" bgcolor="#ffffff"/></object>';
+      $('#clippy-container').html(clippyString.replace(/#\{text\}/g, 'http://' + website + '/' + $state.params.id))
+      alert('Workout URL coppied to clipboard')
     }
   }
 
