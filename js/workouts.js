@@ -16,5 +16,5 @@ function($scope, $timeout, $state, $http) {
     }
   }
 
-  console.log($scope.workouts);
+  $scope.workouts.reverse();
 }]);
