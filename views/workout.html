@@ -2,7 +2,7 @@
   <div class="nav-inner">
     <div id="container" ng-hide="meta.playing">
       <a ng-click="startWorkout()"><i class="icomoon icon-play3"></i> start</a>
-      <a ng-click="shareWorkout()"><i class="icomoon icon-share3"></i> share</a>
+      <a ng-click="shareWorkout()"><i class="icomoon icon-share2"></i> share</a>
     </div>
     <div id="container" ng-show="meta.playing">
       <a ng-click="toggleWorkout()" ng-hide="meta.paused"><i class="icomoon icon-pause2"></i> pause</a>
@@ -13,19 +13,14 @@
 </div>
 
 <div id="current">
-  <div class="grid" style="margin-top: 15px;">
-    <div class="col-6 text-right"><a href="https://play.google.com/store/apps/details?id=com.andrewmilson.workoutland"><img src="img/play-store.png" style="margin-right: 10px;" height="45px" alt=""></a></div>
-    <div class="col-6">Download to play <br>workouts offline!</div>
-  </div>
-  <hr>
   <ul id="steps">
     <li>
       <div class="info">
         <h3>
           {{ workout.name }}
-          <br ng-show="workout.notes"><small ng-bind-html="workout.notes | linky:'_blank'"></small>
-          <br><small>{{ website }}/{{ workout.id }}</small>
-          <br><small><span ng-show="workout.time > 60">{{ workout.time / 60 | floor }} mins</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} seconds</span></small>
+          <br ng-show="workout.notes"><small><strong>Notes:</strong> <span ng-bind-html="workout.notes | linky:'_blank'"></span></small>
+          <br><small><strong>Link:</strong> {{ website }}/{{ workout.id }}</small>
+          <br><small><strong>Time:</strong> <span ng-show="workout.time > 60">{{ workout.time / 60 | floor }} mins</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} seconds</span></small>
         </h3>
       </div>
     </li>

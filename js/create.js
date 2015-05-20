@@ -5,6 +5,7 @@ angular.module('createController', [])
 function($scope, $http) {
   $scope.workout = {
     name: '',
+    notes: '',
     steps: [{}]
   };
 

@@ -2,14 +2,15 @@ angular.module('workoutland', [
   'ui.router',
   'workoutsController',
   'createController',
-  'workoutController'
+  'workoutController',
+  'ngSanitize'
 ])
 
 .config(
 ['$stateProvider', '$urlRouterProvider', '$compileProvider', '$locationProvider',
 function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider) {
   if (!isApp && !isLocalhost) $locationProvider.html5Mode(true);
-  $urlRouterProvider.otherwise('/w');
+  $urlRouterProvider.otherwise('/');
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps):/);
 
   $stateProvider
