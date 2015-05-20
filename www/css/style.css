@@ -89,7 +89,7 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
   clear: both;
 }
 
-input {
+input, textarea, button {
   outline: none;
 }
 
@@ -247,6 +247,10 @@ hr {
   color: #776E65;
   overflow: hidden;
   border-radius: 8px;
+}
+
+#steps.playing li.step {
+  cursor: pointer;
 }
 
 #steps li .progress, #steps li .progress-text {

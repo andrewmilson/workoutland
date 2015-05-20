@@ -13,6 +13,7 @@ function($scope, $http) {
     $scope.workout.steps.push({});
     setTimeout(function() {
       $('.step-name').focus();
+      window.scrollTo(0, document.body.scrollHeight);
     }, 50);
   };
 
