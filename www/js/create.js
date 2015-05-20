@@ -11,6 +11,9 @@ function($scope, $http) {
 
   $scope.addStep = function() {
     $scope.workout.steps.push({});
+    setTimeout(function() {
+      $('.step-name').focus();
+    }, 50);
   };
 
   $scope.removeStep = function($index) {
