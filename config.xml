@@ -21,5 +21,7 @@
     <access origin="geo:*" launch-external="yes"/>
     <access origin="mailto:*" launch-external="yes"/>
     <access origin="http://maps.google.com/*" launch-external="yes"/>
+    <access origin="http://*" launch-external="yes"/>
+    <access origin="https://*" launch-external="yes"/>
     <access origin="*"/>
 </widget>
