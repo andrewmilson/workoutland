@@ -18,7 +18,7 @@
       <div class="info">
         <h3>
           {{ workout.name }}
-          <br ng-show="workout.notes"><small><strong>Notes:</strong> <span ng-bind-html="workout.notes | linky:'_blank'"></span></small>
+          <br ng-show="workout.notes"><small><strong>Notes:</strong> <span ng-bind-html="workout.notes | linky:'_system'"></span></small>
           <br><small><strong>Link:</strong> {{ website }}/{{ workout.id }}</small>
           <br><small><strong>Time:</strong> <span ng-show="workout.time > 60">{{ workout.time / 60 | floor }} mins</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} seconds</span></small>
         </h3>
