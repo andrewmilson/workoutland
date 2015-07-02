@@ -1,8 +1,0 @@
-{
-  "name": "workout-land",
-  "version": "1.0.0",
-  "dependencies": {
-    "gulp": "^3.8.11",
-    "gulp-rename": "^1.2.2"
-  }
-}

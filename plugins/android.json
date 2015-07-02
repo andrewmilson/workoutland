@@ -9,15 +9,11 @@
                 "parents": {
                     "/*": [
                         {
-                            "xml": "<feature name=\"WebIntent\"><param name=\"android-package\" value=\"com.borismus.webintent.WebIntent\" /></feature>",
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"TTS\"><param name=\"android-package\" value=\"org.apache.cordova.plugin.TTS\" /></feature>",
+                            "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
                             "count": 1
                         },
                         {
@@ -29,7 +25,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
+                            "xml": "<feature name=\"TTS\"><param name=\"android-package\" value=\"org.apache.cordova.plugin.TTS\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -60,25 +60,25 @@
         }
     },
     "installed_plugins": {
-        "com.borismus.webintent": {
-            "PACKAGE_NAME": "com.andrewmilson.callisthenicstimer"
-        },
-        "nl.x-services.plugins.socialsharing": {
-            "PACKAGE_NAME": "com.andrewmilson.callisthenicstimer"
-        },
-        "org.apache.cordova.plugin.tts": {
-            "PACKAGE_NAME": "com.andrewmilson.callisthenicstimer"
-        },
-        "org.apache.cordova.media": {
-            "PACKAGE_NAME": "com.andrewmilson.callisthenicstimer"
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
         },
         "org.apache.cordova.dialogs": {
-            "PACKAGE_NAME": "com.andrewmilson.callisthenicstimer"
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "org.apache.cordova.media": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "org.apache.cordova.plugin.tts": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "nl.x-services.plugins.socialsharing": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
         }
     },
     "dependent_plugins": {
         "org.apache.cordova.file": {
-            "PACKAGE_NAME": "com.andrewmilson.callisthenicstimer"
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
         }
     }
 }

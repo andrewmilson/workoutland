@@ -3,13 +3,18 @@
   <textarea name="notes" ng-model="workout.notes" class="form-control" rows="3" placeholder="Notes etc (optional)"></textarea>
   <hr>
   <div class="form-group step" ng-repeat="step in workout.steps">
-    <div>{{ $index + 1 | dateSuffix }} step <span ng-click="removeStep($index)">- remove</span></div>
+    <div>{{ $index + 1 | dateSuffix }} step <span ng-click="removeStep($index)" class="text-danger">- remove</span></div>
     <input ng-required="true" class="form-control step-name" type="text" ng-model="step.name" placeholder="Step name">
-    <input ng-required="true" type="number" ng-model="step.time" min="0" placeholder="0" class="text-right"> seconds
+    <span ng-disabled="step.reps">
+      <input ng-disabled="step.reps" ng-required="!step.reps" type="number" ng-model="step.time" min="1" placeholder="0" class="text-right"> seconds
+    </span>
+    <div class="float-right" ng-disabled="step.time">
+      <input ng-disabled="step.time" ng-required="!step.time" type="number" ng-model="step.reps" min="1" placeholder="0" class="text-right"> reps
+    </div>
     <hr>
   </div>
 </form>
-<input type="submit" class="btn btn-default" ng-click="addStep()" value="Add Exercise"><br>
+<input type="submit" class="btn btn-default" ng-click="addStep()" value="Add Step">
 <button id="create-workout" class="btn btn-default" ng-click="createWorkout()" style="margin-bottom: 8px;" ng-disabled="form.$invalid || !workout.steps.length || createDisabled">
   <span ng-hide="createDisabled">Create Workout</span>
   <span ng-show="createDisabled">Creating...</span>
