@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#582A87">
     <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,minimum-scale=1.0,user-scalable=no">
     <title>Workout Land</title>
     <link rel="icon" href="img/favicon.png">
@@ -11,6 +12,8 @@
       window.isApp = /^file/.test(location.protocol);
       window.isLocalhost = 'localhost' == location.hostname;
       window.website = 'workout.land';
+
+
 
       document.write(isApp ? '' : '\<base href=\"/\"\>')
       document.write((isApp || isLocalhost ? [
@@ -95,6 +98,10 @@
 
       if (isApp) {
         document.addEventListener('deviceready', function() {
+          if (cordova.platformId == 'android') {
+            StatusBar.backgroundColorByHexString('#582A87');
+          }
+
           bootstrapAngular()
           navigator.tts.startup()
           window.webintent.getUri(function(uri) {
