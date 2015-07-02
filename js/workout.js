@@ -3,34 +3,9 @@ angular.module('workoutController', [])
 .controller('workoutController',
 ['$scope', '$timeout', '$state', '$http',
 function($scope, $timeout, $state, $http) {
+  var workout, steps;
 
-  $scope.getWorkout = function() {
-    if (localStorage['workout-' + $state.params.id]) {
-      $scope.workout = JSON.parse(localStorage['workout-' + $state.params.id]);
-      console.log($scope.workout);
-    } else {
-      $http.get('http://workout-land.appspot.com/' + $state.params.id)
-      .success(function(workout) {
-        $scope.workout = workout;
-
-        workout.time = 0;
-        workout.steps.map(function(a) {
-          workout.time += a.time;
-        });
-
-        if (!localStorage['workout-' + $state.params.id]) {
-          localStorage['workout-' + $state.params.id] = JSON.stringify(workout);
-        }
-      });
-    }
-  };
-
-  $scope.getWorkout();
-
-  var progressTimeout;
-  var beep = document.getElementById('beep');
-
-  $scope.meta = {
+  var meta = $scope.meta = {
     current: -1,
     progress: 0,
     stepProgress: 0,
@@ -38,25 +13,90 @@ function($scope, $timeout, $state, $http) {
     paused: false
   };
 
-  var update = function(playBeep) {
-    var time = 0;
-    for (var i = 0; i < $scope.workout.steps.length; i++) {
-      time += $scope.workout.steps[i].time;
-      if (time >= $scope.meta.progress) {
-        $scope.meta.stepProgress = time - $scope.meta.progress;
+  var handleDifficulty = function(newVal, oldVal) {
+    meta.progress = Math.floor(meta.progress / oldVal * newVal);
+    $scope.workout.time = 0;
+    steps.map(function(a) {
+      a.time = a.time / oldVal * newVal || 0;
+      a.reps = a.reps / oldVal * newVal || 0;
+      workout.time += a.time || a.reps * 5;
+    });
+    workout.time = Math.floor($scope.workout.time);
+  }
 
-        if (i != $scope.meta.current) {
-          if (playBeep) {
-            var step = $(document.getElementsByClassName('step')[i]);
+  var handleWorkout = function(workoutInfo) {
+    workout = $scope.workout = workoutInfo;
+    steps = workout.steps;
+
+    workout.difficulty = workout.difficulty || 1;
+    handleDifficulty(workout.difficulty, workout.difficulty)
+
+    if (workout && !localStorage['workout-' + $state.params.id]) {
+      localStorage['workout-' + $state.params.id] = JSON.stringify(workout);
+    }
+
+    return workout;
+  }
+
+  $scope.getWorkout = function() {
+    if (localStorage['workout-' + $state.params.id]) {
+      handleWorkout(JSON.parse(localStorage['workout-' + $state.params.id]));
+
+      var localWorkout = JSON.parse(localStorage['workout-' + $state.params.id]);
+      if (workout.temp) {
+        $http.post('http://workout-land.appspot.com/', workout)
+        .success(function(data) {
+          localWorkout.id = data;
+          delete localWorkout.temp;
+          localStorage['workout-' + data] = JSON.stringify(localWorkout);
+          localStorage.remove('workout-' + $state.params.id);
+          handleWorkout(JSON.parse(localStorage['workout-' + data]));
+        })
+      }
+    } else {
+      $http.get('http://workout-land.appspot.com/' + $state.params.id)
+      .success(function(workoutData) {
+        handleWorkout(workoutData);
+      });
+    }
+  };
+
+  $scope.$watch('workout.difficulty', handleDifficulty);
+
+  $scope.getWorkout();
+
+  var progressTimeout;
+  var beep = document.getElementById('beep');
+
+  var update = function(TTS) {
+    var time = 0;
+    for (var i = 0; i < steps.length; i++) {
+      var step = steps[i];
+      time += step.time || step.reps;
+      if (time >= meta.progress) {
+        meta.stepProgress = time - meta.progress;
+
+        if (i != meta.current) {
+          if (TTS) {
+            var $step = $(document.getElementsByClassName('step')[i]);
             var windowHeight = $(window).height();
-            var offset = step.offset().top -
-              (step.height() < $(window).height() &&
-              ($(window).height() / 2) - (step.height() / 2) || 0);
+            var offset = $step.offset().top -
+              ($step.height() < $(window).height() &&
+              ($(window).height() / 2) - ($step.height() / 2) || 0);
             $('html, body').animate({scrollTop: offset}, 500);
 
             setTimeout(function() {
-              var step = $scope.workout.steps[i]
-              var speechText = step.name + ' ' + (step.time > 60 ? Math.floor(step.time / 60) + ' minutes': '') + (step.time % 60 ? (step.time > 60 ? 'and' : '') + step.time % 60 + ' seconds' : '');
+
+              var speechText = step.name + '. ';
+
+              if (step.time) {
+                speechText +=
+                  (step.time > 60 ? Math.floor(step.time / 60) + ' minutes': '') +
+                  (step.time % 60 ? (step.time > 60 ? 'and' : '') + step.time % 60 + ' seconds' : '');
+              } else if (step.reps) {
+                speechText += Math.round(step.reps) + ' reps'
+              }
+
               if (isApp) {
                 navigator.tts.speak(speechText);
               } else {
@@ -66,16 +106,10 @@ function($scope, $timeout, $state, $http) {
           }
         }
 
-        $scope.meta.current = i;
+        meta.current = i;
 
-        if (i == $scope.workout.steps.length - 1 && $scope.meta.progress == time) {
-          $scope.stopWorkout();
-          var speechText = 'workout over';
-          if (isApp) {
-            navigator.tts.speak(speechText);
-          } else {
-            meSpeak.speak(speechText)
-          }
+        if (i == steps.length - 1 && meta.progress == time) {
+          workoutOver();
         }
 
         break;
@@ -83,51 +117,61 @@ function($scope, $timeout, $state, $http) {
     }
   };
 
-  $scope.workoutIncrimenter = function() {
+  var workoutOver = $scope.workoutOver = function() {
+    $scope.stopWorkout();
+    var speechText = 'workout over';
+    if (isApp) {
+      navigator.tts.speak(speechText);
+    } else {
+      meSpeak.speak(speechText)
+    }
+  }
+
+  var workoutIncrimenter = $scope.workoutIncrimenter = function() {
     progressTimeout = $timeout(function() {
-      $scope.workoutIncrimenter();
-      $scope.meta.progress++;
+      workoutIncrimenter();
+      if (steps[meta.current].time) meta.progress++;
       update(true);
     }, 1000);
   };
 
   $scope.$steps = document.getElementsByClassName('step');
 
-  $scope.goToStep = function($index, $e) {
-    if (!$scope.meta.playing) return;
-    $scope.meta.progress = 1;
+  $scope.goToStep = function($index, TTS, $e) {
+    if (!meta.playing) return;
+    meta.progress = 1;
     for (var i = 0; i < $index; i++) {
-      $scope.meta.progress += $scope.workout.steps[i].time;
+      meta.progress += steps[i].time || steps[i].reps || 0;
     }
 
     if ($index == $scope.meta.current) {
       var $step = $scope.$steps[$index];
       var offset = $step.getBoundingClientRect();
-      $scope.meta.progress += Math.floor($scope.workout.steps[$index].time / $step.clientWidth * ($e.pageX - offset.left))
+      if ($e) $scope.meta.progress += Math.floor(steps[$index].time / $step.clientWidth * ($e.pageX - offset.left));
     }
 
     $timeout.cancel(progressTimeout);
-    !$scope.meta.paused && $scope.workoutIncrimenter();
-    update();
+    !$scope.meta.paused && workoutIncrimenter();
+    if ($index < steps.length) return update(TTS);
+    workoutOver();
   };
 
   $scope.startWorkout = function() {
     $scope.meta.current = 0;
     $scope.meta.progress = 0;
     $scope.meta.playing = true;
-    $scope.workoutIncrimenter();
+    workoutIncrimenter();
     update(false);
   };
 
   $scope.toggleWorkout = function() {
     if ($scope.meta.paused) {
-      $scope.workoutIncrimenter();
+      workoutIncrimenter();
     } else {
       $timeout.cancel(progressTimeout);
     }
 
     $scope.meta.paused = !$scope.meta.paused;
-    console.log($scope.meta.paused);
   };
 
   $scope.shareWorkout = function() {

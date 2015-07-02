@@ -5,6 +5,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,minimum-scale=1.0,user-scalable=no">
     <title>Workout Land</title>
+    <link rel="icon" href="img/favicon.png">
 
     <script>
       window.isApp = /^file/.test(location.protocol);
@@ -12,7 +13,7 @@
       window.website = 'workout.land';
 
       document.write(isApp ? '' : '\<base href=\"/\"\>')
-      document.write((isApp ? [
+      document.write((isApp || isLocalhost ? [
         'bower_components/angular/angular.min.js',
         'bower_components/jquery/dist/jquery.min.js',
         'bower_components/angular-ui-router/release/angular-ui-router.min.js',
@@ -62,20 +63,20 @@
       </div>
     </div>
     <div id="view">
-      <!-- <script>
+      <script>
         if (!isApp) {
           document.write([
-          '\<div class=\"grid\" style=\"padding-top: 15px;\"\>',
-            '\<div class=\"col-6 text-right\"\>',
-              '\<a href=\"https://play.google.com/store/apps/details?id=com.andrewmilson.workoutland\"\>',
-                '\<img src=\"img/play-store.png\" style=\"margin-right: 10px;\" height=\"45px\" alt=\"\"\>',
-              '\</a\>',
-            '\</div\>',
-            '\<div class=\"col-6\"\>Download to play \<br\>workouts offline!\</div\>',
-          '\</div\>',
-          '\<hr\>'].join(''));
+          '<div class="grid" style="padding-top: 15px;">',
+            '<div class="col-6 text-right">',
+              '<a href="https://play.google.com/store/apps/details?id=com.andrewmilson.workoutland">',
+                '<img src="img/play-store.png" style="margin-right: 10px;" height="45px" alt="">',
+              '</a>',
+            '</div>',
+            '<div class="col-6">Download to view <br>workouts offline!</div>',
+          '</div>',
+          '<hr>'].join(''));
         }
-      </script> -->
+      </script>
       <div ui-view></div>
     </div>
     <script>

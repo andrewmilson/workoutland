@@ -1,14 +1,21 @@
 <div ng-hide="workouts.length" style="margin: auto; width: 80%;" class="text-center">
-  Workout Land is the ultimate calisthenic/workout timer and planner. Workouts you view show up here! Check out this <a wl-href="/jvl-67">example abdominal workout</a> or have fun and <a wl-href="/c">create your own</a>!
+  <h2>Plan your workout before you get the to gym/park</h2>
+  <br>
+  <h2>Workout Land will give you <u>100%</u> focus to achive <u>100%</u> results</h2>
+  <hr>
+  <h2>Share your workouts with the squad to become the biggest cunt's in town!!!</h2>
+  <hr>
+  Workouts you view will be listed here. Check out this <a wl-href="/jvl-67">example abdominal assasination workout</a> or add to the land of workouts and <a wl-href="/c">create your own</a>!
+  <hr>
 </div>
 <ul class="list">
   <li class="grid" ng-repeat="workout in workouts">
     <a wl-href="/{{ workout.id }}">
       <div class="col-12">
         <h3>
-          {{ workout.name }}<br>
-          <small>{{ website }}/{{ workout.id }}</small><br>
-          <small>{{ workout.time / 60 | floor }} minutes {{ workout.time % 60 }} seconds</small>
+          <span class="title">{{ workout.name }}</span><br>
+          <small><span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min </span><span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span><span ng-hide="workout.temp"> - {{ website }}/{{ workout.id }}</span><span ng-show="workout.temp"> - offline</span></small><br>
+          <small></small>
         </h3>
       </div>
     </a>
