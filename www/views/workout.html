@@ -21,7 +21,7 @@
           <span ng-show="workout.notes"><br><small><strong>Notes:</strong> <span ng-bind-html="workout.notes | linky:'_system'"></span></small></span>
           <span ng-hide="workout.temp"><br><small><strong>Link:</strong> {{ website }}/{{ workout.id }}</small></span>
           <br><small><strong>Estimated time:</strong> <span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span></small>
-          <br><small><strong>Difficulty:</strong> <input type="range" ng-model="workout.difficulty" min="0.1" step="0.1" max="2"> {{ workout.difficulty * 100 | number:0 }}%</small>
+          <br><small><strong>Duration:</strong> <input type="range" ng-model="workout.difficulty" min="0.1" step="0.05" max="2"> {{ workout.difficulty * 100 | number:0 }}%</small>
         </h3>
       </div>
     </li>

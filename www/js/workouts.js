@@ -13,7 +13,7 @@ function($scope, $timeout, $state, $http) {
       workout.steps.map(function(a) {
         a.time = a.time || 0;
         a.reps = a.reps || 0;
-        workout.time += a.time || a.reps * 1.5;
+        workout.time += a.time || a.reps * 5;
       });
       workout.time = Math.floor(workout.time);
     }
