@@ -1,15 +1,15 @@
 <form name="form">
-  <input ng-required="true" class="form-control" type="text" ng-model="workout.name" placeholder="Workout name">
+  <input ng-required="true" class="form-control" type="text" ng-model="workout.name" placeholder="Workout name...">
   <textarea name="notes" ng-model="workout.notes" class="form-control" rows="3" placeholder="Notes etc (optional)"></textarea>
   <hr>
   <div class="form-group step" ng-repeat="step in workout.steps">
-    <div>{{ $index + 1 | dateSuffix }} step <span ng-click="removeStep($index)" class="text-danger">- remove</span></div>
-    <input ng-required="true" class="form-control step-name" type="text" ng-model="step.name" placeholder="Step name">
-    <span ng-disabled="step.reps">
-      <input ng-disabled="step.reps" ng-required="!step.reps" type="number" ng-model="step.time" min="1" placeholder="0" class="text-right"> seconds
-    </span>
-    <div class="float-right" ng-disabled="step.time">
-      <input ng-disabled="step.time" ng-required="!step.time" type="number" ng-model="step.reps" min="1" placeholder="0" class="text-right"> reps
+    <div><span ng-click="removeStep($index)" class="text-danger">✖</span> - {{ $index + 1 | dateSuffix }} step</div>
+    <input ng-required="true" class="form-control step-name" type="text" ng-model="step.name" placeholder="Exercise name*">
+    <input ng-required="false" type="number" ng-model="step.weight" min="1" placeholder="weight" class="text-center">
+    <div class="float-right">
+      <input ng-disabled="step.reps" ng-required="!step.reps" type="number" ng-model="step.time" min="1" placeholder="secs*" class="text-center">
+      or
+      <input ng-disabled="step.time" ng-required="!step.time" type="number" ng-model="step.reps" min="1" placeholder="reps*" class="text-center">
     </div>
     <hr>
   </div>
