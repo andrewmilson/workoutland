@@ -22,6 +22,18 @@
           <span ng-hide="workout.temp"><br><small><strong>Link:</strong> {{ website }}/{{ workout.id }}</small></span>
           <br><small><strong>Estimated time:</strong> <span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span></small>
           <br><small><strong>Duration:</strong> <input type="range" ng-model="workout.difficulty" min="0.1" step="0.05" max="2"> {{ workout.difficulty * 100 | number:0 }}%</small>
+          <div class="difficulties">
+            <small>
+              <strong>
+                Difficulties
+              </strong>
+            </small>
+            <ul class="difficulties-list">
+              <li ng-repeat="step in workout.stepDifficulty">
+                <small><strong>{{ step.name }}:</strong> <input type="range" ng-model="step.difficulty" min="0.1" step="0.05" max="2"> {{ step.difficulty * 100 | number:0 }}%</small>
+              </li>
+            </ul>
+          </div>
         </h3>
       </div>
     </li>

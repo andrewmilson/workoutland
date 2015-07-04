@@ -14,9 +14,14 @@ function($scope, $timeout, $state, $http) {
   };
 
   var handleDifficulty = function(newVal, oldVal) {
+    newVal = newVal || 1;
+    oldVal = oldVal || 1;
+    if (!workout) return;
+    console.log(workout);
     meta.progress = Math.floor(meta.progress / oldVal * newVal);
-    $scope.workout.time = 0;
+    workout.time = 0;
     steps.map(function(a) {
+      console.log(a);
       a.time = a.time / oldVal * newVal || 0;
       a.reps = a.reps / oldVal * newVal || 0;
       workout.time += a.time || a.reps * 5;
@@ -30,6 +35,18 @@ function($scope, $timeout, $state, $http) {
 
     workout.difficulty = workout.difficulty || 1;
     handleDifficulty(workout.difficulty, workout.difficulty)
+
+    workout.stepDifficulty = [];
+    workout.steps.forEach(function(step) {
+      for (var i = 0; i < workout.stepDifficulty.length; i++) {
+        if (workout.stepDifficulty[i].name.toLowerCase() === step.name.toLowerCase()) return;
+      }
+
+      workout.stepDifficulty.push({
+        name: step.name,
+        difficulty: 1
+      });
+    });
 
     if (workout && !localStorage['workout-' + $state.params.id]) {
       localStorage['workout-' + $state.params.id] = JSON.stringify(workout);
@@ -91,7 +108,7 @@ function($scope, $timeout, $state, $http) {
 
               if (step.time) {
                 speechText +=
-                  (step.time > 60 ? Math.floor(step.time / 60) + ' minutes': '') +
+                  (step.time > 60 ? Math.floor(step.time / 60) + ' minute': '') +
                   (step.time % 60 ? (step.time > 60 ? 'and' : '') + step.time % 60 + ' seconds' : '');
               } else if (step.reps) {
                 speechText += Math.round(step.reps) + ' reps'

@@ -22,6 +22,19 @@ a {
   color: inherit;
 }
 
+
+.difficulties .difficulties-list {
+  list-style: none;
+  font-size: 0.8em;
+  padding: 0 0 0 20px;
+  margin: 0;
+  opacity: 0.6;
+}
+
+.difficulties .difficulties-list li {
+  padding: 2px 0;
+}
+
 body {
   padding: 68px 8px 8px 8px;
 }
@@ -117,8 +130,17 @@ input, textarea, button {
 }
 
 input[type=number] {
-  width: 70px;
+  width: 75px;
+  padding: 5px !important;
+  font-size: 1em !important;
   font-family: "Arial Black";
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=submit] {
@@ -142,7 +164,8 @@ input[type=text], input[type=number], .form-control {
 input[type=range] {
   margin: 0;
   padding: 0;
-  height: 12px;
+  height: 10px;
+  width: 100px;
   font-size: inherit;
 }
 
@@ -183,7 +206,6 @@ input[type=range] {
 
 .text-danger {
   color: #A30005;
-  font-style: italic;
 }
 .text-success {
   color: #5EDA92;

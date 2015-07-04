@@ -10,7 +10,7 @@
 
     <script>
       window.isApp = /^file/.test(location.protocol);
-      window.isLocalhost = 'localhost' == location.hostname;
+      window.isLocalhost = '3000' == location.port;
       window.website = 'workout.land';
 
 
@@ -75,7 +75,7 @@
                 '<img src="img/play-store.png" style="margin-right: 10px;" height="45px" alt="">',
               '</a>',
             '</div>',
-            '<div class="col-6">Download to view <br>workouts offline!</div>',
+            '<div class="col-6">Download for <br>offline workouts!</div>',
           '</div>',
           '<hr>'].join(''));
         }
