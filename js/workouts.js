@@ -4,9 +4,12 @@ angular.module('workoutsController', [])
 ['$scope', '$timeout', '$state', '$http',
 function($scope, $timeout, $state, $http) {
   $scope.workouts = [];
+  // if (!~Object.keys(localStorage).join('').indexOf('workout')) {
+  //   localStorage.
+  // }
 
   for (var key in localStorage) {
-    if (!~localStorage[key].indexOf('workout-')) {
+    if (~key.indexOf('workout-')) {
       $scope.workouts.push(JSON.parse(localStorage[key]))
       var workout = $scope.workouts.slice(-1)[0];
       workout.time = 0;

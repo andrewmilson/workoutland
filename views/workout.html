@@ -17,22 +17,18 @@
     <li>
       <div class="info">
         <h3>
-          <span class="title">{{ workout.name }}</span>
-          <span ng-show="workout.notes"><br><small><strong>Notes:</strong> <span ng-bind-html="workout.notes | linky:'_system'"></span></small></span>
-          <span ng-hide="workout.temp"><br><small><strong>Link:</strong> {{ website }}/{{ workout.id }}</small></span>
-          <br><small><strong>Estimated time:</strong> <span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span></small>
-          <br><small><strong>Duration:</strong> <input type="range" ng-model="workout.difficulty" min="0.1" step="0.05" max="2"> {{ workout.difficulty * 100 | number:0 }}%</small>
-          <div class="difficulties">
-            <small>
-              <strong>
-                Difficulties
-              </strong>
-            </small>
-            <ul class="difficulties-list">
-              <li ng-repeat="step in workout.stepDifficulty">
-                <small><strong>{{ step.name }}:</strong> <input type="range" ng-model="step.difficulty" min="0.1" step="0.05" max="2"> {{ step.difficulty * 100 | number:0 }}%</small>
-              </li>
-            </ul>
+          <span class="title" >{{ workout.name }}</span>
+          <small class="light-text" style="margin-bottom: 10px;">
+            <span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span> -
+            {{ website }}/{{ workout.id }}
+          </small>
+          <div class="light-text">
+            <small ng-show="workout.notes" class="notes" ng-bind-html="workout.notes | linky:'_system'"></small>
+            <br>
+            <small>Duration <input type="range" ng-model="workout.difficulty" min="0.1" step="0.05" max="2"> {{ workout.difficulty * 100 | number:0 }}%</small>
+            <span ng-repeat="step in workout.stepDifficulty">
+              <small>{{ step.name }} <input type="range" ng-model="step.difficulty" min="0.1" step="0.05" max="2"> {{ step.difficulty * 100 | number:0 }}%</small>
+            </span>
           </div>
         </h3>
       </div>
@@ -41,16 +37,17 @@
     <li class="step" ng-click="goToStep($index, false, $event)" ng-class="{current: meta.playing && $index == meta.current, time: step.time, reps: step.reps}" ng-repeat="step in workout.steps">
       <div class="info">
         <h3>
-          #{{ $index + 1 }} {{ step.name }}
-          <br><small>
-            <span ng-if="step.time"><span class="progress-text">{{ step.time - meta.stepProgress }} / </span>{{ step.time | number:0 }} seconds</span>
-            <span ng-if="step.reps">{{ step.reps | number:0 }} reps</span>
+          {{ step.name }} <span class="step-number">#{{ $index + 1 }}</span>
+          <br><small class="light-text">
+            <span ng-if="step.time"><span class="progress-text">{{ step.displayTime - meta.stepProgress }} / </span>{{ step.displayTime | number:0 }} seconds</span>
+            <span ng-if="step.reps">{{ step.displayReps }} reps</span>
+            <span ng-if="step.weight"> - {{ step.displayWeight }}{{ workout.unit }}</span>
           </small>
         </h3>
-        <div ng-if="step.time" class="progress" ng-style="{width: 100 - 100 / step.time * meta.stepProgress + '%'}"></div>
-        <div ng-if="step.reps" ng-click="goToStep($index + 1, true); $event.stopPropagation()" class="next-step">{{ $index == workout.steps.length - 1  ? 'FINISH' : 'NEXT' }}</div>
+        <div ng-if="step.time" class="progress" ng-style="{width: 100 - 100 / step.displayTime * meta.stepProgress + '%'}"></div>
+        <div ng-if="step.reps" ng-click="goToStep($index + 1, true); $event.stopPropagation()" class="next-step btn">{{ $index == workout.steps.length - 1  ? 'finish' : 'next' }}</div>
       </div>
     </li>
   </ul>
-  <div style="height: 70px;"></div>
+  <div style="height: 3.5rem;"></div>
 </div>
