@@ -17,27 +17,39 @@ function($scope, $timeout, $state, $http) {
     newVal = newVal || 1;
     oldVal = oldVal || 1;
     if (!workout) return;
-    console.log(workout);
     meta.progress = Math.floor(meta.progress / oldVal * newVal);
     workout.time = 0;
     steps.map(function(a) {
-      console.log(a);
       a.time = a.time / oldVal * newVal || 0;
       a.reps = a.reps / oldVal * newVal || 0;
+      a.displayReps = Math.ceil(a.reps);
+      a.displayTime = Math.ceil(a.time);
       workout.time += a.time || a.reps * 5;
     });
     workout.time = Math.floor($scope.workout.time);
+  }
+
+  var handleStepDifficulty = function(oldVal, newVal) {
+    steps.forEach(function(step) {
+      if (step.name == oldVal.name) {
+        step.weight = step.weight / newVal.difficulty * oldVal.difficulty || 0;
+        step.displayWeight = Math.ceil(step.weight);
+      }
+    });
   }
 
   var handleWorkout = function(workoutInfo) {
     workout = $scope.workout = workoutInfo;
     steps = workout.steps;
 
+    workout.unit = localStorage.unit || 'lbs';
+
     workout.difficulty = workout.difficulty || 1;
     handleDifficulty(workout.difficulty, workout.difficulty)
 
     workout.stepDifficulty = [];
     workout.steps.forEach(function(step) {
+      if (!step.weight) return;
       for (var i = 0; i < workout.stepDifficulty.length; i++) {
         if (workout.stepDifficulty[i].name.toLowerCase() === step.name.toLowerCase()) return;
       }
@@ -48,9 +60,23 @@ function($scope, $timeout, $state, $http) {
       });
     });
 
+    workout.stepDifficulty.forEach(function(step, i) {
+      $scope.$watch('workout.stepDifficulty[' + i + ']', handleStepDifficulty, true);
+    });
+
     if (workout && !localStorage['workout-' + $state.params.id]) {
       localStorage['workout-' + $state.params.id] = JSON.stringify(workout);
     }
+
+    // AndroidWear.onConnect(function(e) {
+    //   alert("Connection Successfully Established - handle: " + e.handle);
+    //
+    //   AndroidWear.onDataReceived(e.handle, function(e) {
+    //     console.log("Data received", e);
+    //   });
+    //
+    //   AndroidWear.sendData(e.handle, JSON.stringify(workout));
+    // });
 
     return workout;
   }
@@ -66,7 +92,7 @@ function($scope, $timeout, $state, $http) {
           localWorkout.id = data;
           delete localWorkout.temp;
           localStorage['workout-' + data] = JSON.stringify(localWorkout);
-          localStorage.remove('workout-' + $state.params.id);
+          localStorage.removeItem('workout-' + $state.params.id);
           handleWorkout(JSON.parse(localStorage['workout-' + data]));
         })
       }
@@ -85,7 +111,7 @@ function($scope, $timeout, $state, $http) {
   var progressTimeout;
   var beep = document.getElementById('beep');
 
-  var update = function(TTS) {
+  var update = function(TextToSpeech) {
     var time = 0;
     for (var i = 0; i < steps.length; i++) {
       var step = steps[i];
@@ -94,7 +120,7 @@ function($scope, $timeout, $state, $http) {
         meta.stepProgress = time - meta.progress;
 
         if (i != meta.current) {
-          if (TTS) {
+          if (TextToSpeech) {
             var $step = $(document.getElementsByClassName('step')[i]);
             var windowHeight = $(window).height();
             var offset = $step.offset().top -
@@ -102,24 +128,28 @@ function($scope, $timeout, $state, $http) {
               ($(window).height() / 2) - ($step.height() / 2) || 0);
             $('html, body').animate({scrollTop: offset}, 500);
 
-            setTimeout(function() {
-
               var speechText = step.name + '. ';
 
               if (step.time) {
                 speechText +=
-                  (step.time > 60 ? Math.floor(step.time / 60) + ' minute': '') +
-                  (step.time % 60 ? (step.time > 60 ? 'and' : '') + step.time % 60 + ' seconds' : '');
+                  (step.displayTime >= 60 ? Math.floor(step.displayTime / 60) + ' minute': '') +
+                  (step.displayTime % 60 ? (step.displayTime > 60 ? 'and' : '') + step.displayTime % 60 + ' seconds' : '');
               } else if (step.reps) {
-                speechText += Math.round(step.reps) + ' reps'
+                speechText += step.displayReps + ' reps'
+              }
+
+              if (step.weight) {
+                speechText += ' ' + step.displayWeight + ' ' + (workout.unit == 'KG' ? 'KG' : 'Pounds')
               }
 
               if (isApp) {
-                navigator.tts.speak(speechText);
+                TTS.speak(speechText);
+                navigator.vibrate(100);
               } else {
-                meSpeak.speak(speechText)
+                setTimeout(function() {
+                  meSpeak.speak(speechText)
+                }, 20);
               }
-            }, 0);
           }
         }
 
@@ -154,7 +184,7 @@ function($scope, $timeout, $state, $http) {
 
   $scope.$steps = document.getElementsByClassName('step');
 
-  $scope.goToStep = function($index, TTS, $e) {
+  $scope.goToStep = function($index, TextToSpeech, $e) {
     if (!meta.playing) return;
     meta.progress = 1;
     for (var i = 0; i < $index; i++) {
@@ -169,16 +199,16 @@ function($scope, $timeout, $state, $http) {
 
     $timeout.cancel(progressTimeout);
     !$scope.meta.paused && workoutIncrimenter();
-    if ($index < steps.length) return update(TTS);
+    if ($index < steps.length) return update(TextToSpeech);
     workoutOver();
   };
 
   $scope.startWorkout = function() {
-    $scope.meta.current = 0;
+    $scope.meta.current = -1;
     $scope.meta.progress = 0;
     $scope.meta.playing = true;
     workoutIncrimenter();
-    update(false);
+    update(true);
   };
 
   $scope.toggleWorkout = function() {

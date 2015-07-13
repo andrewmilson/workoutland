@@ -16,18 +16,14 @@
     Share your workouts with the squad to become the biggest lads in town!!!
   </h2>
   <hr> -->
-  <hr>
-  Workouts you view will be listed here. Check out this <a wl-href="/jvl-67">example abdominal assasination workout</a> or add to the land of workouts and <a wl-href="/c">create your own</a>!
-  <hr>
 </div>
 <ul class="list">
   <li class="grid" ng-repeat="workout in workouts">
     <a wl-href="/{{ workout.id }}">
       <div class="col-12">
         <h3>
-          <span class="title">{{ workout.name }}</span><br>
-          <small><span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min </span><span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span><span ng-hide="workout.temp"> - {{ website }}/{{ workout.id }}</span><span ng-show="workout.temp"> - offline</span></small><br>
-          <small></small>
+          <span class="title">{{ workout.name }}</span>
+          <small class="light-text"><span class="text-danger">sample</span> - <span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min </span><span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span><span ng-hide="workout.temp"> - {{ website }}/{{ workout.id }}</span><span ng-show="workout.temp"> - offline</span></small>
         </h3>
       </div>
     </a>
