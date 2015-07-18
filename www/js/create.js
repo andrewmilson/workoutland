@@ -11,12 +11,38 @@ function($scope, $http) {
     temp: true
   };
 
+  var inputSuggestions = $scope.inputSuggestions = [
+    'Push ups',
+    'Pull ups',
+    'Iron butterflies',
+    'Windmills',
+    'Incline Bench press',
+    'Squats',
+    'Pistol squats',
+    'V-ups',
+    'Sit ups',
+    'Rest',
+    'Break',
+    'Bench press',
+    'Decline Bench press',
+    'Left side plank dips',
+    'Right side plank dips'
+  ];
+
   $scope.addStep = function() {
     workout.steps.push({});
     setTimeout(function() {
       $('.step-name').last()[0].focus();
       window.scrollTo(0, document.body.scrollHeight);
     }, 50);
+
+    console.log(workout.steps);
+    workout.steps.forEach(function(step) {
+      console.log(step, inputSuggestions.indexOf(step.name))
+      if (!~inputSuggestions.indexOf(step.name)) {
+        inputSuggestions.push(step.name);
+      }
+    });
   };
 
   $scope.removeStep = function($index) {

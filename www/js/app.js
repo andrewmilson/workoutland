@@ -3,7 +3,8 @@ angular.module('workoutland', [
   'workoutsController',
   'createController',
   'workoutController',
-  'ngSanitize'
+  'ngSanitize',
+  'autocomplete'
 ])
 
 .config(
@@ -12,6 +13,14 @@ function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider
   if (!isApp && !isLocalhost) $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/');
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps):/);
+
+  if (isApp) {
+    $stateProvider.state('gold', {
+      url: '/gold',
+      templateUrl: 'views/gold.html',
+      controller: 'goldController'
+    });
+  }
 
   $stateProvider
   .state('workouts', {
@@ -41,7 +50,27 @@ function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider
 })
 
 .run([
-'$rootScope',
-function($rootScope) {
+'$rootScope', '$timeout',
+function($rootScope, $timeout) {
+  $rootScope.$watch('settings', function(val) {
+    settings = val;
+    updateSettings();
+
+    if (isApp) {
+      if (settings.keepAwake) {
+        window.plugins.insomnia.keepAwake();
+      } else {
+        window.plugins.insomnia.allowSleepAgain();
+      }
+    }
+  }, true);
+
+  $rootScope.$on('$viewContentLoaded', function(event, currentRoute, previousRoute) {
+    window.scrollTo(0, 0);
+  });
+
+  $rootScope.isApp = isApp;
   $rootScope.website = website;
+  $rootScope.settings = settings;
+  $rootScope.canVibrate = !!navigator.vibrate;
 }]);
