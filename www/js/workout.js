@@ -271,7 +271,7 @@ function($scope, $timeout, $state, $http) {
       $scope.goToStep(meta.current + 1, true);
       $scope.$apply();
     },
-    previus: function() {
+    previous: function() {
       $scope.goToStep(meta.current - 1, true);
       $scope.$apply();
     },
