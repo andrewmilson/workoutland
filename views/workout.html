@@ -6,7 +6,7 @@
     </div>
     <div id="container" ng-show="meta.playing">
       <a ng-click="toggleWorkout()" ng-hide="meta.paused"><i class="icomoon icon-pause2"></i> PAUSE</a>
-      <a ng-click="toggleWorkout()" ng-show="meta.paused"><i class="icomoon icon-play3"></i> RESUME</a>
+      <a ng-click="toggleWorkout()" ng-show="meta.paused"><i class="icomoon icon-play3"></i> PLAY</a>
       <a ng-click="stopWorkout()"><i class="icomoon icon-stop2"></i> STOP</a>
     </div>
   </div>
@@ -25,12 +25,36 @@
           <div class="light-text">
             <small ng-show="workout.notes" class="notes" ng-bind-html="workout.notes | linky:'_system'"></small>
             <br>
-            <small><label for="vibrate-settings">Vibrate <input type="checkbox" id="vibrate-settings" ng-model="settings.vibrate"></small>
-            <small ng-show="isApp"><label for="keep-awake-settings">Keep screen awake <input type="checkbox" id="keep-awake-settings" ng-model="settings.keepAwake"></small>
-            <small><label for="tts-settings">Test to speech <input type="checkbox" id="tts-settings" ng-model="settings.TTS"></label></small>
-            <small ng-show="settings.TTS"><label for="tts-up-next-settings">Test to speech "... up next" <input type="checkbox" id="tts-up-next-settings" ng-model="settings.TTSUpNext"></label></small>
+            <small>
+              <label for="vibrate-settings">
+                <input type="checkbox" id="vibrate-settings" ng-model="settings.vibrate">
+                Vibrate
+            </small>
+            <small ng-show="isApp">
+              <label for="keep-awake-settings">
+                <input type="checkbox" id="keep-awake-settings" ng-model="settings.keepAwake">
+                Keep screen awake
+            </small>
+            <small>
+              <label for="voice-control-settings">
+                <input type="checkbox" id="voice-control-settings" ng-model="settings.voiceControl">
+                Voice control  <span class="badge">beta</span>
+                <div><input type="checkbox" style="opacity: 0;"> - start, stop, next, previous, pause, play</div>
+              </label>
+            </small>
+            <small>
+              <label for="tts-settings">
+                <input type="checkbox" id="tts-settings" ng-model="settings.TTS">
+                Test to speech
+              </label>
+            </small>
+            <small ng-show="settings.TTS">
+              <label for="tts-up-next-settings">
+                <input type="checkbox" id="tts-up-next-settings" ng-model="settings.TTSUpNext">
+                Test to speech "... up next"
+              </label>
+            </small>
             <small ng-show="workout.stepDifficulty">
-              Unit
               <label for="kg"><input type="radio" ng-model="settings.unit" value="kg" id="kg"> kg</label>
               <label for="lbs"><input type="radio" ng-model="settings.unit" value="lbs" id="lbs"> lbs</label>
             </small>

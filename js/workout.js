@@ -266,6 +266,40 @@ function($scope, $timeout, $state, $http) {
     update(true);
   };
 
+  var commands = {
+    next: function() {
+      $scope.goToStep(meta.current + 1, true);
+      $scope.$apply();
+    },
+    previus: function() {
+      $scope.goToStep(meta.current - 1, true);
+      $scope.$apply();
+    },
+    pause: function() {
+      if ($scope.meta.paused) return;
+      $scope.toggleWorkout();
+      $scope.$apply();
+    },
+    play: function() {
+      if (!$scope.meta.paused) return;
+      $scope.toggleWorkout();
+      $scope.$apply();
+    },
+    start: function() {
+      $scope.startWorkout()
+      $scope.$apply();
+    },
+    stop: function() {
+      $scope.stopWorkout()
+      $scope.$apply();
+    }
+  }
+
+  if (annyang && settings.voiceControl) {
+    annyang.addCommands(commands);
+    annyang.start();
+  }
+
   $scope.toggleWorkout = function() {
     if ($scope.meta.paused) {
       workoutIncrimenter();

@@ -479,3 +479,12 @@ hr {
   right: 0;
   top: 100%;
 }
+
+.badge {
+  display: inline-block;
+  background: #ec5872;
+  border-radius: 100px;
+  font-size: 0.8em;
+  color: #fff;
+  padding: 3px 6px;
+}
