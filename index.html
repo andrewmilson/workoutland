@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
-    <!-- <meta name="theme-color" content="#582A87"> -->
-    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1,minimum-scale=1.0,user-scalable=no">
+    <!-- <meta name="theme-color" content="#4d394b"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1.0,user-scalable=no">
     <title>Workout Land</title>
     <link rel="icon" href="img/icon.png">
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
@@ -13,8 +13,30 @@
       window.isApp = /^file/.test(location.protocol);
       window.isLocalhost = '3000' == location.port;
       window.website = 'workout.land';
+      navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
+      function updateSettings() {
+        if (!window.settings) {
+          window.settings = JSON.parse(localStorage.settings || JSON.stringify({
+            unit: 'kg',
+            keepAwake: true,
+            TTS: true,
+            TTSUpNext: true,
+            vibrate: true
+          }));
+        } else {
+          localStorage.settings = window.settings ?
+            JSON.stringify(window.settings) :
+            JSON.stringify({
+              unit: 'kg',
+              keepAwake: true,
+              TTS: true,
+              vibrate: true
+            });
+        }
+      }
 
+      updateSettings();
 
       document.write(isApp ? '' : '\<base href=\"/\"\>')
       document.write((isApp || isLocalhost ? [
@@ -23,18 +45,21 @@
         'bower_components/fastclick/lib/fastclick.js',
         'bower_components/angular-ui-router/release/angular-ui-router.min.js',
         'bower_components/angular-sanitize/angular-sanitize.min.js',
+        'bower_components/allmighty-autocomplete/script/autocomplete.js',
+        // 'bower_components/annyang/annyang.min.js',
         'js/create.js',
         'js/workout.js',
         'js/workouts.js',
         'js/app.js',
         'cordova.js'
       ] : [
-        'js/mespeak.js',
         'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js',
         'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js',
         'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-sanitize.js',
         'https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js',
+        // 'https://cdnjs.cloudflare.com/ajax/libs/annyang/1.6.0/annyang.js',
+        'bower_components/allmighty-autocomplete/script/autocomplete.js',
         'js/create.js',
         'js/workout.js',
         'js/workouts.js',
@@ -90,10 +115,12 @@
           '<hr>'].join(''));
         }
       </script>
-      <div ui-view></div>
+      <div ui-view autoscroll="false"></div>
     </div>
     <script>
-      if (!isApp) document.write('\<script src=\"js/mespeak.js\"\>\<\/script\>')
+      if (!isApp && !window.speechSynthesis) {
+        document.write('\<script src=\"js/mespeak.js\"\>\<\/script\>')
+      }
     </script>
     <script>
       $(function() {
@@ -112,6 +139,8 @@
 
       if (isApp) {
         document.addEventListener('deviceready', function() {
+          // cordova.plugins.backgroundMode.enable();
+
           if (cordova.platformId == 'android') {
             StatusBar.backgroundColorByHexString('#582A87');
 
@@ -122,7 +151,6 @@
             }
           }
 
-
           bootstrapAngular()
           window.webintent.getUri(function(uri) {
             if (!/^http/.test(uri)) return;
@@ -132,8 +160,10 @@
         });
       } else {
         bootstrapAngular();
-        meSpeak.loadConfig("js/mespeak_config.json");
-        meSpeak.loadVoice('js/en-us.json');
+        if (!window.speechSynthesis) {
+          meSpeak.loadConfig("js/mespeak_config.json");
+          meSpeak.loadVoice('js/en-us.json');
+        }
       }
     </script>
   </body>

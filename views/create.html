@@ -3,24 +3,29 @@
   <textarea name="notes" ng-model="workout.notes" class="form-control" rows="3" placeholder="Notes etc (optional)"></textarea>
   <hr>
   <div class="form-group step" ng-repeat="step in workout.steps">
-    <div class="text-bold" style="margin-bottom: 5px;"><span ng-click="removeStep($index)" class="text-danger">✖</span> {{ $index + 1 | dateSuffix }} step</div>
-    <input ng-required="true" class="form-control step-name" type="text" ng-model="step.name" placeholder="Exercise name*">
+    <div class="text-bold" style="margin-bottom: 0.25rem;"><span ng-click="removeStep($index)" class="text-danger">✖</span> {{ $index + 1 | dateSuffix }} step</div>
+    <!-- <input ng-required="true" class="form-control step-name" type="text" ng-model="step.name" placeholder="Exercise name*"> -->
+    <autocomplete
+    attr-input-class="form-control step-name"
+    attr-placeholder="Exercise name*"
+    ng-model="step.name"
+    data="inputSuggestions"></autocomplete>
     <input type="number" ng-model="step.weight" min="1" placeholder="weight" class="text-center">
-    <div class="float-right">
+    <div class="float-right" style="position: relative;">
       <input ng-disabled="step.reps" ng-required="!step.reps" type="number" ng-model="step.time" min="1" placeholder="secs*" class="text-center">
-      or
       <input ng-disabled="step.time" ng-required="!step.time" type="number" ng-model="step.reps" min="1" placeholder="reps*" class="text-center">
+      <span class="tiny light-text">-1 = To failure</span>
     </div>
     <hr>
   </div>
   <div class="form-group">
-    <input ng-model="workout.unit" value="KG" ng-required="true" type="radio" name="workoutUnit">KG
-    <input ng-model="workout.unit" value="Lbs" ng-required="true" type="radio" name="workoutUnit">Lbs
+    <label for="kg"><input id="kg" ng-model="workout.unit" value="KG" ng-required="true" type="radio" name="workoutUnit"> KG</label>
+    <label for="lbs"><input id="lbs" ng-model="workout.unit" value="Lbs" ng-required="true" type="radio" name="workoutUnit"> Lbs</label>
   </div>
   <hr>
   <button style="margin-bottom: 10px;" class="btn btn-default" ng-click="addStep()">Add Step</button>
+  <button id="create-workout" class="btn btn-default" ng-click="createWorkout()" style="margin-bottom: 8px;" ng-disabled="form.$invalid || !workout.steps.length || createDisabled">
+    <span ng-hide="createDisabled">Create Workout</span>
+    <span ng-show="createDisabled">Creating...</span>
+  </button>
 </form>
-<button id="create-workout" class="btn btn-default" ng-click="createWorkout()" style="margin-bottom: 8px;" ng-disabled="form.$invalid || !workout.steps.length || createDisabled">
-  <span ng-hide="createDisabled">Create Workout</span>
-  <span ng-show="createDisabled">Creating...</span>
-</button>
