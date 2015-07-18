@@ -56,7 +56,7 @@ function($scope, $http) {
     localStorage['workout-' + tempId] = JSON.stringify(workout);
     localStorage.unit = workout.unit;
 
-    $http.post('http://workout-land.appspot.com/', workout)
+    $http.post('https://workout-land.appspot.com/', workout)
     .success(function(data) {
       var tempWorkout = JSON.parse(localStorage['workout-' + tempId]);
       tempWorkout.id = data;
