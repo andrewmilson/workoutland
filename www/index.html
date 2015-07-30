@@ -50,6 +50,7 @@
         'bower_components/annyang/annyang.min.js',
         'js/create.js',
         'js/workout.js',
+        'js/gold.js',
         'js/workouts.js',
         'js/app.js',
         'cordova.js'
@@ -63,12 +64,14 @@
         'bower_components/allmighty-autocomplete/script/autocomplete.js',
         'js/create.js',
         'js/workout.js',
+        'js/gold.js',
         'js/workouts.js',
         'js/app.js'
       ]).map(function(s) {
         return '\<script src=\"' + s + '\"\>\<\/script\>';
       }).join(''))
     </script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
 
     <script>
       if (!isApp) {

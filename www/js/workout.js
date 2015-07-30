@@ -1,8 +1,8 @@
 angular.module('workoutController', [])
 
 .controller('workoutController',
-['$scope', '$timeout', '$state', '$http',
-function($scope, $timeout, $state, $http) {
+['$scope', '$timeout', '$state', '$http', '$rootScope',
+function($scope, $timeout, $state, $http, $rootScope) {
   var workout, steps;
 
   var speak = function(text) {
@@ -35,30 +35,58 @@ function($scope, $timeout, $state, $http) {
     paused: false
   };
 
+  var handleStepDurationDifficulty = function(step, newVal, oldVal) {
+    if (step.time < 0 || step.reps < 0) {
+      step.toFailure = true;
+    } else {
+      step.time = step.time / oldVal * newVal || 0;
+      step.reps = step.reps / oldVal * newVal || 0;
+      step.displayReps = Math.round(step.reps);
+      step.displayTime = Math.round(step.time);
+    }
+  }
+
   var handleDifficulty = function(newVal, oldVal) {
     newVal = newVal || 1;
     oldVal = oldVal || 1;
     if (!workout) return;
     meta.progress = Math.floor(meta.progress / oldVal * newVal);
     workout.time = 0;
-    steps.map(function(a) {
-      a.time = a.time / oldVal * newVal || 0;
-      a.reps = a.reps / oldVal * newVal || 0;
-      a.displayReps = Math.ceil(a.reps);
-      a.displayTime = Math.ceil(a.time);
-      workout.time += a.time || a.reps * 5;
+    steps.forEach(function(a) {
+      handleStepDurationDifficulty(a, newVal, oldVal);
+      workout.time += (a.toFailure && 30) || a.time || a.reps * 5;
     });
-    workout.time = Math.floor($scope.workout.time);
+    workout.time = Math.round($scope.workout.time);
   }
 
-  var handleStepDifficulty = function(oldVal, newVal) {
+  $scope.changeDuration = function(e, i, amount) {
+    var step = steps[i];
+    step[step.time ? 'time' : 'reps'] += amount;
+    console.log(step);
+    handleStepDurationDifficulty(step, 1, 1);
+    console.log(step);
+    e.stopPropagation();
+  };
+
+  var handleStepWeightDifficulty = function(oldVal, newVal) {
     steps.forEach(function(step) {
       if (step.name == oldVal.name) {
         step.weight = step.weight / newVal.difficulty * oldVal.difficulty || 0;
-        step.displayWeight = Math.ceil(step.weight);
+        step.displayWeight = Math.round(
+          step.weight * (settings.unit == 'lbs' ? 2.20462 : 1)
+        );
       }
     });
   }
+
+  $rootScope.$watch('settings', function(oldVal, newVal) {
+    steps.length && steps.forEach(function(step) {
+      if (!step.weight) return;
+      step.displayWeight = Math.round(
+        step.weight * (settings.unit == 'lbs' ? 2.20462 : 1)
+      );
+    })
+  }, true);
 
   var handleWorkout = function(workoutInfo) {
     workout = $scope.workout = workoutInfo;
@@ -81,7 +109,7 @@ function($scope, $timeout, $state, $http) {
     });
 
     workout.stepDifficulty.forEach(function(step, i) {
-      $scope.$watch('workout.stepDifficulty[' + i + ']', handleStepDifficulty, true);
+      $scope.$watch('workout.stepDifficulty[' + i + ']', handleStepWeightDifficulty, true);
     });
 
     if (workout && !localStorage['workout-' + $state.params.id]) {
@@ -149,17 +177,14 @@ function($scope, $timeout, $state, $http) {
     var time = 0;
     for (var i = 0; i < steps.length; i++) {
       var step = steps[i];
-      time += step.time || step.reps;
+      time += (step.toFailure && 1) || step.time || step.reps;
       if (time >= meta.progress) {
         meta.stepProgress = time - meta.progress;
 
         if (window.androidWatch) {
           var stepMeta = {
             playingWorkout: true,
-            stepMeta: (step.time ?
-              Math.ceil(step.time - meta.stepProgress) + ' / ' + step.displayTime + ' sec' :
-              step.displayReps + ' reps') +
-              (step.weight ? ' - ' + step.displayWeight + ' ' + settings.unit : ''),
+            stepMeta: '',
             stepNumber: i + 1 + ' / ' + steps.length,
             stepName: step.name,
             next: i + 1 != steps.length,
@@ -168,6 +193,20 @@ function($scope, $timeout, $state, $http) {
               (i + 1 == steps.length ? 'FINISH' : steps[i + 1].name) +
               '... up next'
           };
+
+          if (step.toFailure) {
+            stepMeta.stepMeta += 'To failure'
+          } else if (step.time) {
+            stepMeta.stepMeta +=
+              Math.round(step.time - meta.stepProgress) + ' / ' +
+              step.displayTime + ' sec';
+          } else {
+            stepMeta.stepMeta += step.displayReps + ' reps'
+          }
+
+          if (step.weight) {
+            stepMeta.stepMeta += ' - ' + step.displayWeight + ' ' + settings.unit;
+          }
 
           AndroidWear.sendData(androidWatch.handle, JSON.stringify(stepMeta));
         }
@@ -183,7 +222,9 @@ function($scope, $timeout, $state, $http) {
 
             var speechText = step.name + '. ';
 
-            if (step.time) {
+            if (step.toFailure) {
+              speechText += 'to failure';
+            } else if (step.time) {
               speechText +=
                 (step.displayTime >= 60 ? Math.floor(step.displayTime / 60) + ' minute': '') +
                 (step.displayTime % 60 ? (step.displayTime > 60 ? 'and' : '') + step.displayTime % 60 + ' seconds' : '');

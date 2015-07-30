@@ -53,6 +53,10 @@
                         {
                             "xml": "<feature name=\"androidstatusbarcolor\"><param name=\"android-package\" value=\"com.internrocket.plugins.statusbarcolor.StatusBarColor\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"WebIntent\"><param name=\"android-package\" value=\"com.borismus.webintent.WebIntent\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -110,6 +114,9 @@
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         },
         "com.internrocket.plugins.statusbarcolor": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "com.borismus.webintent": {
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         }
     },

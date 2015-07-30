@@ -1,0 +1,28 @@
+<form action="">
+  <hr>
+  <div class="form-group" style="display: table; width: 100%;">
+    <input style="display: table-cell; width: 100%;" type="text" placeholder="Code...">
+    <label style="padding-left: 0.5rem; display: table-cell; width: 1px;" for="">
+      <button class="btn btn-gold" style="white-space: nowrap;">Acitivate Gold</button>
+    </label>
+  </div>
+  <div class="form-group">
+    <a ng-click="getGold()" class="btn btn-gold full-width text-center">
+      Purchase Gold Code - $47 <br>
+      <span style="font-size: 0.8em; font-weight: normal;">Unlimited workouts on up to 5 devices</span>
+    </a>
+  </div>
+</form>
+
+
+<form action="" method="POST" id="stripe-form">
+  <script
+    src="https://checkout.stripe.com/v2/checkout.js"
+    class="stripe-button"
+    data-key="pk_test_G5YhIkq2PEq84lwU064TZENT"
+    data-amount="2000"
+    data-name="Demo Site"
+    data-description="2 widgets ($20.00)"
+    data-image="/128x128.png">
+  </script>
+</form>

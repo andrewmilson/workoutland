@@ -6,7 +6,6 @@ function($scope, $http) {
   var workout = $scope.workout = {
     name: '',
     notes: '',
-    unit: localStorage.unit || '',
     steps: [{}],
     temp: true
   };
@@ -53,8 +52,8 @@ function($scope, $http) {
     $scope.createDisabled = true;
     var tempId = Math.floor(Math.random() * 1000000000).toString(36);
     workout.id = tempId;
+    workout.unit = settings.unit;
     localStorage['workout-' + tempId] = JSON.stringify(workout);
-    localStorage.unit = workout.unit;
 
     $http.post('https://workout-land.appspot.com/', workout)
     .success(function(data) {
