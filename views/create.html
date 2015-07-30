@@ -12,18 +12,18 @@
     data="inputSuggestions"></autocomplete>
     <input type="number" ng-model="step.weight" min="1" placeholder="weight" class="text-center">
     <div class="float-right" style="position: relative;">
-      <input ng-disabled="step.reps" ng-required="!step.reps" type="number" ng-model="step.time" min="1" placeholder="secs*" class="text-center">
-      <input ng-disabled="step.time" ng-required="!step.time" type="number" ng-model="step.reps" min="1" placeholder="reps*" class="text-center">
+      <input ng-disabled="step.reps" ng-required="!step.reps" type="number" ng-model="step.time" min="-1" placeholder="secs*" class="text-center">
+      <input ng-disabled="step.time" ng-required="!step.time" type="number" ng-model="step.reps" min="-1" placeholder="reps*" class="text-center">
       <span class="tiny light-text">-1 = To failure</span>
     </div>
     <hr>
   </div>
   <div class="form-group">
-    <label for="kg"><input id="kg" ng-model="workout.unit" value="KG" ng-required="true" type="radio" name="workoutUnit"> KG</label>
-    <label for="lbs"><input id="lbs" ng-model="workout.unit" value="Lbs" ng-required="true" type="radio" name="workoutUnit"> Lbs</label>
+    <label for="kg"><input id="kg" ng-model="settings.unit" value="kg" ng-required="true" type="radio" name="workoutUnit"> kg</label>
+    <label for="lbs"><input id="lbs" ng-model="settings.unit" value="lbs" ng-required="true" type="radio" name="workoutUnit"> lbs</label>
   </div>
   <hr>
-  <button style="margin-bottom: 10px;" class="btn btn-default" ng-click="addStep()">Add Step</button>
+  <button style="margin-bottom: 0.25rem;" class="btn btn-default" ng-click="addStep()">Add Step</button>
   <button id="create-workout" class="btn btn-default" ng-click="createWorkout()" style="margin-bottom: 8px;" ng-disabled="form.$invalid || !workout.steps.length || createDisabled">
     <span ng-hide="createDisabled">Create Workout</span>
     <span ng-show="createDisabled">Creating...</span>

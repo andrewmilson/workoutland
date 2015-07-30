@@ -1,6 +1,7 @@
 angular.module('workoutland', [
   'ui.router',
   'workoutsController',
+  'goldController',
   'createController',
   'workoutController',
   'ngSanitize',
@@ -14,7 +15,7 @@ function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider
   $urlRouterProvider.otherwise('/');
   $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps):/);
 
-  if (isApp) {
+  if (isApp || isLocalhost) {
     $stateProvider.state('gold', {
       url: '/gold',
       templateUrl: 'views/gold.html',
@@ -63,12 +64,21 @@ function($rootScope, $timeout) {
         window.plugins.insomnia.allowSleepAgain();
       }
     }
+
+    // if (annyang) {
+    //   if (!settings.voiceControl) {
+    //     annyang.abort();
+    //   } else {
+    //     annyang.start();
+    //   }
+    // }
   }, true);
 
   $rootScope.$on('$viewContentLoaded', function(event, currentRoute, previousRoute) {
     window.scrollTo(0, 0);
   });
 
+  $rootScope.annyang = annyang;
   $rootScope.isApp = isApp;
   $rootScope.website = website;
   $rootScope.settings = settings;
