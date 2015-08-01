@@ -80,6 +80,7 @@ function($rootScope, $timeout) {
 
   $rootScope.annyang = annyang;
   $rootScope.isApp = isApp;
+  $rootScope.isIOS = /iPad|iPhone|iPod/.test( navigator.userAgent ) && !window.MSStream;
   $rootScope.website = website;
   $rootScope.settings = settings;
   $rootScope.canVibrate = !!navigator.vibrate;

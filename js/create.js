@@ -15,15 +15,27 @@ function($scope, $http) {
     'Pull ups',
     'Iron butterflies',
     'Windmills',
-    'Incline Bench press',
+    'Incline bench press',
     'Squats',
     'Pistol squats',
     'V-ups',
     'Sit ups',
     'Rest',
     'Break',
+    'Front Levers',
+    'Hanging leg raises',
+    'Side to side knee ups',
     'Bench press',
-    'Decline Bench press',
+    'Overhead press',
+    'Squats',
+    'Deadlifts',
+    'Standing calf raises',
+    'Seated calf raises',
+    'Chest fly',
+    'Triceps extension',
+    'Crunch',
+    'Preacher curl',
+    'Decline bench press',
     'Left side plank dips',
     'Right side plank dips'
   ];
@@ -57,6 +69,7 @@ function($scope, $http) {
 
     $http.post('https://workout-land.appspot.com/', workout)
     .success(function(data) {
+      console.log(data)
       var tempWorkout = JSON.parse(localStorage['workout-' + tempId]);
       tempWorkout.id = data;
       delete tempWorkout.temp;

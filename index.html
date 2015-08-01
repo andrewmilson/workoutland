@@ -15,25 +15,22 @@
       window.website = 'workout.land';
       navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
+      var settingsDefaults = {
+        unit: 'kg',
+        keepAwake: true,
+        TTS: true,
+        TTSUpNext: false,
+        voiceControl: false,
+        vibrate: true
+      };
+
       function updateSettings() {
         if (!window.settings) {
-          window.settings = JSON.parse(localStorage.settings || JSON.stringify({
-            unit: 'kg',
-            keepAwake: true,
-            TTS: true,
-            voiceControl: true,
-            TTSUpNext: true,
-            vibrate: true
-          }));
+          window.settings = JSON.parse(localStorage.settings || JSON.stringify(settingsDefaults));
         } else {
           localStorage.settings = window.settings ?
             JSON.stringify(window.settings) :
-            JSON.stringify({
-              unit: 'kg',
-              keepAwake: true,
-              TTS: true,
-              vibrate: true
-            });
+            JSON.stringify(settingsDefaults);
         }
       }
 

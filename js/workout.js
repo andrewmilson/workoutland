@@ -6,7 +6,6 @@ function($scope, $timeout, $state, $http, $rootScope) {
   var workout, steps;
 
   var speak = function(text) {
-    console.log(settings);
     if (!settings.TTS) return;
     if (isApp) {
       TTS.speak(text);
@@ -22,6 +21,8 @@ function($scope, $timeout, $state, $http, $rootScope) {
   }
 
   $scope.$on('$locationChangeStart', function(event) {
+    annyang && annyang.abort();
+
     if (isApp) {
       window.plugins.insomnia.allowSleepAgain();
     }
@@ -54,7 +55,7 @@ function($scope, $timeout, $state, $http, $rootScope) {
     workout.time = 0;
     steps.forEach(function(a) {
       handleStepDurationDifficulty(a, newVal, oldVal);
-      workout.time += (a.toFailure && 30) || a.time || a.reps * 5;
+      workout.time += (a.toFailure && 30) || a.time || a.reps * 5 + 20;
     });
     workout.time = Math.round($scope.workout.time);
   }
@@ -79,7 +80,47 @@ function($scope, $timeout, $state, $http, $rootScope) {
     });
   }
 
-  $rootScope.$watch('settings', function(oldVal, newVal) {
+  var commands = {
+    next: function() {
+      $scope.goToStep(meta.current + 1, true);
+      $scope.$apply();
+    },
+    previous: function() {
+      $scope.goToStep(meta.current - 1, true);
+      $scope.$apply();
+    },
+    pause: function() {
+      if ($scope.meta.paused) return;
+      $scope.toggleWorkout();
+      $scope.$apply();
+    },
+    play: function() {
+      if (!$scope.meta.paused) return;
+      $scope.toggleWorkout();
+      $scope.$apply();
+    },
+    start: function() {
+      $scope.startWorkout()
+      $scope.$apply();
+    },
+    stop: function() {
+      $scope.stopWorkout()
+      $scope.$apply();
+    }
+  }
+
+  annyang && annyang.addCommands(commands);
+
+  $rootScope.$watch('settings', function(newVal, oldVal) {
+    if (annyang) {
+      if (newVal.voiceControl) {
+        annyang.addCommands(commands);
+        annyang.start();
+      } else {
+        annyang.abort();
+      }
+    }
+
     steps.length && steps.forEach(function(step) {
       if (!step.weight) return;
       step.displayWeight = Math.round(
@@ -151,10 +192,10 @@ function($scope, $timeout, $state, $http, $rootScope) {
       if (workout.temp) {
         $http.post('https://workout-land.appspot.com/', workout)
         .success(function(data) {
+          localStorage.removeItem('workout-' + localWorkout.id);
           localWorkout.id = data;
           delete localWorkout.temp;
           localStorage['workout-' + data] = JSON.stringify(localWorkout);
-          localStorage.removeItem('workout-' + $state.params.id);
           handleWorkout(JSON.parse(localStorage['workout-' + data]));
         })
       }
@@ -284,7 +325,7 @@ function($scope, $timeout, $state, $http, $rootScope) {
     if (!meta.playing) return;
     meta.progress = 1;
     for (var i = 0; i < $index; i++) {
-      meta.progress += steps[i].time || steps[i].reps || 0;
+      meta.progress += Math.abs(steps[i].time || steps[i].reps || 0);
     }
 
     if ($index == $scope.meta.current) {
@@ -307,38 +348,11 @@ function($scope, $timeout, $state, $http, $rootScope) {
     update(true);
   };
 
-  var commands = {
-    next: function() {
-      $scope.goToStep(meta.current + 1, true);
-      $scope.$apply();
-    },
-    previous: function() {
-      $scope.goToStep(meta.current - 1, true);
-      $scope.$apply();
-    },
-    pause: function() {
-      if ($scope.meta.paused) return;
-      $scope.toggleWorkout();
-      $scope.$apply();
-    },
-    play: function() {
-      if (!$scope.meta.paused) return;
-      $scope.toggleWorkout();
-      $scope.$apply();
-    },
-    start: function() {
-      $scope.startWorkout()
-      $scope.$apply();
-    },
-    stop: function() {
-      $scope.stopWorkout()
-      $scope.$apply();
-    }
-  }
-
-  if (annyang && settings.voiceControl) {
-    annyang.addCommands(commands);
-    annyang.start();
+  $scope.deleteWorkout = function() {
+    if (!confirm('Do you want to delete this workout?')) return;
+    localStorage.removeItem('workout-' + workout.id);
+    location.replace('#/');
+    console.log('workout-' + workout.id);
   }
 
   $scope.toggleWorkout = function() {
@@ -374,6 +388,12 @@ function($scope, $timeout, $state, $http, $rootScope) {
 .filter('floor', function(){
   return function(n){
     return Math.floor(n);
+  };
+})
+
+.filter('round', function(){
+  return function(n){
+    return Math.round(n);
   };
 })
 
