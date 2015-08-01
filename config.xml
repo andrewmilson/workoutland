@@ -66,8 +66,8 @@
     <access origin="http://*" launch-external="yes"/>
     <access origin="https://*" launch-external="yes"/>
 
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
+    <allow-intent href="http://*" />
+    <allow-intent href="https://*" />
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />

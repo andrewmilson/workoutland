@@ -23,7 +23,12 @@
       <div class="col-12">
         <h3>
           <span class="title">{{ workout.name }}</span>
-          <small class="light-text"><span class="text-danger">sample</span> - <span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min </span><span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span><span ng-hide="workout.temp"> - {{ website }}/{{ workout.id }}</span><span ng-show="workout.temp"> - offline</span></small>
+          <small class="light-text">
+            <span ng-if="workout.sample"><span class="text-danger">sample</span> - </span>
+            <span>{{ workout.time / 60 | round }} min </span>
+            <span ng-hide="workout.temp"> - {{ website }}/{{ workout.id }}</span>
+            <span ng-show="workout.temp"> - offline</span>
+          </small>
         </h3>
       </div>
     </a>
@@ -37,3 +42,4 @@
   </a>
   <hr>
 </h5> -->
+<h5 class="text-center light-text">Workouts you view are listed here!</h5>

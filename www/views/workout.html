@@ -16,11 +16,17 @@
   <ul id="steps" ng-class="{playing: meta.playing}">
     <li>
       <div class="info">
+        <a
+        href="workout://{{ workout.id }}"
+        class="btn btn-lg full-width text-center"
+        ng-if="isIOS && !isApp"
+        style="margin-bottom: 1.5rem;">
+          Open workout in app
+        </a>
         <h3>
           <span class="title" >{{ workout.name }}</span>
           <small class="light-text" style="margin-bottom: 0.5rem;">
-            <span ng-show="workout.time >= 60">{{ workout.time / 60 | floor }} min</span> <span ng-show="workout.time % 60">{{ workout.time % 60 }} sec</span> -
-            {{ website }}/{{ workout.id }}
+            https://{{ website }}/{{ workout.id }}<span ng-if="!workout.sample" ng-click="deleteWorkout()"> - delete</span>
           </small>
           <div class="light-text">
             <small ng-show="workout.notes" class="notes" ng-bind-html="workout.notes | linky:'_system'"></small>
@@ -61,7 +67,7 @@
             <br>
             <small class="range-small">
               <span class="range-name">Duration</span>
-              <span class="range-percentage">{{ workout.difficulty * 100 | number:0 }}%</span>
+              <span class="range-percentage"><span ng-show="workout.time >= 60">{{ workout.time / 60 | round }} min</span> - {{ workout.difficulty * 100 | number:0 }}%</span>
               <span class="range-input"><input type="range" ng-model="workout.difficulty" min="0.1" step="0.01" max="2"></span>
             </small>
             <small ng-repeat="step in workout.stepDifficulty" class="range-small">
