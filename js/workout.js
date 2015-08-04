@@ -7,16 +7,16 @@ function($scope, $timeout, $state, $http, $rootScope) {
 
   var speak = function(text) {
     if (!settings.TTS) return;
+
+    if (window.speechSynthesis)
+      return speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+
     if (isApp) {
       TTS.speak(text);
     } else {
-      if (window.speechSynthesis) {
-        speechSynthesis.speak(new SpeechSynthesisUtterance(text));
-      } else {
-        setTimeout(function() {
-          meSpeak.speak(text)
-        }, 20);
-      }
+      setTimeout(function() {
+        meSpeak.speak(text)
+      }, 20);
     }
   }
 
