@@ -43,7 +43,7 @@ h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
 }
 
 small strong {
-  font-family: "Lato";
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
 }
 
 .text-right {
@@ -134,7 +134,7 @@ input[type=number] {
   width: 4rem;
   padding: 0.25rem !important;
   font-size: 1rem !important;
-  font-family: "Lato";
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
   -moz-appearance: textfield;
 }
 
@@ -146,7 +146,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type=submit] {
   margin-bottom: 0.4rem;
-  font-family: "Lato";
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
 }
 
 input[type=text], input[type=number], .form-control {
@@ -157,7 +157,7 @@ input[type=text], input[type=number], .form-control {
   font-size: 1rem;
   padding: 0.5rem;
   margin-bottom: 0.6rem;
-  font-family: "Lato";
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
   font-weight: bold;
 }
 
@@ -172,7 +172,7 @@ input[type=range] {
 .form-control {
   width: 100%;
   font-weight: 400;
-  font-family: 'Lato';
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
 }
 
 ::-webkit-input-placeholder:-moz-placeholder, ::-moz-placeholder, :-ms-input-placeholder {
@@ -187,7 +187,7 @@ input[type=range] {
 .btn {
   padding: 0.4rem 0.5rem;
   border: none;
-  font-family: "Lato";
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
   display: inline-block;
   border-radius: 0.25rem;
   font-size: 1rem;
@@ -300,7 +300,7 @@ hr {
   vertical-align: middle;
   text-decoration: none;
   display: table-cell;
-  font-family: "Lato";
+  font-family: "Lato", Tahoma, Geneva, sans-serif;
 }
 
 #view {
