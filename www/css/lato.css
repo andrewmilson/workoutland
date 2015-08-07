@@ -2,19 +2,19 @@
   font-family: 'Lato';
   font-style: normal;
   font-weight: 900;
-  src: local('Lato Black'), local('Lato-Black'), url(../fonts/lato/black.woff2);
+  src: local('Lato Black'), local('Lato-Black'), url(../fonts/lato/black.ttf);
 }
 
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
-  src: local('Lato Bold'), local('Lato-Bold'), url(../fonts/lato/bold.woff2);
+  src: local('Lato Bold'), local('Lato-Bold'), url(../fonts/lato/bold.ttf);
 }
 
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
-  src: local('Lato'), local('Lato'), url(../fonts/lato/regulat.ttf);
+  src: local('Lato'), local('Lato'), url(../fonts/lato/regular.ttf);
 }

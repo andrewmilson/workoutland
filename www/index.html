@@ -12,8 +12,8 @@
 
     <script>
       window.isApp = /^file/.test(location.protocol);
-      window.isIOS = /iPad|iPhone|iPod/.test( navigator.userAgent ) && !window.MSStream;
-      window.isLocalhost = '3000' == location.port;
+      window.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      window.isLocalhost = 'localhost' == location.hostname;
       window.website = 'workout.land';
       navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
