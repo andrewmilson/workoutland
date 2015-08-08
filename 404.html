@@ -13,7 +13,7 @@
     <script>
       window.isApp = /^file/.test(location.protocol);
       window.isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      window.isLocalhost = 'localhost' == location.hostname;
+      window.isLocalhost = 3000 == location.port;
       window.website = 'workout.land';
       navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
@@ -123,7 +123,7 @@
       <div ui-view autoscroll="false"></div>
     </div>
     <script>
-      if (!isApp && !window.speechSynthesis) {
+      if (isIOS || !window.speechSynthesis) {
         document.write('\<script src=\"js/mespeak.js\"\>\<\/script\>')
       }
     </script>
@@ -165,10 +165,11 @@
         });
       } else {
         bootstrapAngular();
-        if (!window.speechSynthesis) {
-          meSpeak.loadConfig("js/mespeak_config.json");
-          meSpeak.loadVoice('js/en-us.json');
-        }
+      }
+
+      if (meSpeak) {
+        meSpeak.loadConfig("js/mespeak_config.json");
+        meSpeak.loadVoice('js/en-us.json');
       }
     </script>
   </body>
