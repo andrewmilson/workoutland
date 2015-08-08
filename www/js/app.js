@@ -13,7 +13,7 @@ angular.module('workoutland', [
 function($stateProvider, $urlRouterProvider, $compileProvider, $locationProvider) {
   if (!isApp && !isLocalhost) $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/');
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps):/);
+  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|geo|file|maps|workout):/);
 
   if (isApp || isLocalhost) {
     $stateProvider.state('gold', {

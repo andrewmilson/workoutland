@@ -8,11 +8,7 @@ function($scope, $timeout, $state, $http, $rootScope) {
   var speak = function(text) {
     if (!settings.TTS) return;
     if (isApp) {
-      if (isIOS) {
-        speechSynthesis.speak(new SpeechSynthesisUtterance(text));
-      } else {
-        TTS.speak(text);
-      }
+      TTS.speak(text);
     } else {
       if (window.speechSynthesis) {
         return speechSynthesis.speak(new SpeechSynthesisUtterance(text));

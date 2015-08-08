@@ -19,7 +19,7 @@
         <a
         href="workout://{{ workout.id }}"
         class="btn btn-lg full-width text-center"
-        ng-i="isIOS && !isApp"
+        ng-if="isIOS && !isApp"
         style="margin-bottom: 1.5rem;">
           Open workout in app
         </a>
