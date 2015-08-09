@@ -15,6 +15,7 @@
 <div id="current">
   <ul id="steps" ng-class="{playing: meta.playing}">
     <li>
+      <h5 ng-if="workout.lastPlayed" style="margin-bottom: 0.5rem" class="light-text text-center">Last played {{ workout.lastPlayed | instagramDate }} ago</h5>
       <div class="info">
         <a
         href="workout://{{ workout.id }}"
@@ -67,7 +68,7 @@
             <br>
             <small class="range-small">
               <span class="range-name">Duration</span>
-              <span class="range-percentage"><span ng-show="workout.time >= 60">{{ workout.time / 60 | round }} min</span> - {{ workout.difficulty * 100 | number:0 }}%</span>
+              <span class="range-percentage"><span ng-show="workout.time >= 60">{{ workout.time / 60 | round }}m</span> - {{ workout.difficulty * 100 | number:0 }}%</span>
               <span class="range-input"><input type="range" ng-model="workout.difficulty" min="0.1" step="0.01" max="2"></span>
             </small>
             <small ng-repeat="step in workout.stepDifficulty" class="range-small">
