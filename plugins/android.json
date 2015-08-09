@@ -57,6 +57,10 @@
                         {
                             "xml": "<feature name=\"WebIntent\"><param name=\"android-package\" value=\"com.borismus.webintent.WebIntent\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"LaunchMyApp\"><param name=\"android-package\" value=\"nl.xservices.plugins.LaunchMyApp\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -81,7 +85,12 @@
                             "count": 2
                         }
                     ],
-                    "/*/application/activity": []
+                    "/*/application/activity": [
+                        {
+                            "xml": "<intent-filter><data android:scheme=\"workout\" /><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /></intent-filter>",
+                            "count": 1
+                        }
+                    ]
                 }
             }
         }
@@ -118,6 +127,10 @@
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         },
         "com.borismus.webintent": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "nl.x-services.plugins.launchmyapp": {
+            "URL_SCHEME": "workout",
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         }
     },

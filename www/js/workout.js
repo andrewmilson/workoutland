@@ -341,6 +341,8 @@ function($scope, $timeout, $state, $http, $rootScope) {
   };
 
   $scope.startWorkout = function() {
+    workout.lastPlayed = new Date().getTime();
+    localStorage['workout-' + workout.id] = JSON.stringify(workout);
     $scope.meta.current = -1;
     $scope.meta.progress = 0;
     $scope.meta.playing = true;
@@ -369,9 +371,7 @@ function($scope, $timeout, $state, $http, $rootScope) {
     if (isApp) {
       window.plugins.socialsharing.share('https://' + website + '/' + $state.params.id)
     } else {
-      var clippyString = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="110" height="14" id="clippy" ><param name="movie" value="clippy.swf"/><param name="allowScriptAccess" value="always" /><param name="quality" value="high" /><param name="scale" value="noscale" /><param NAME="FlashVars" value="text=#{text}"><param name="bgcolor" value="#ffffff"><embed src="clippy.swf" width="110" height="14" name="clippy" quality="high" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="text=#{text}" bgcolor="#ffffff"/></object>';
-      $('#clippy-container').html(clippyString.replace(/#\{text\}/g, 'http://' + website + '/' + $state.params.id))
-      alert('Workout URL coppied to clipboard')
+      prompt('Copy to clipboard: Ctrl+C, Enter', 'https://' + website + '/' + $state.params.id)
     }
   }
 
@@ -404,5 +404,25 @@ function($scope, $timeout, $state, $http, $rootScope) {
     if (j == 2 && k != 12) return i + "nd";
     if (j == 3 && k != 13) return i + "rd";
     return i + "th";
+  };
+})
+
+.filter('instagramDate', function() {
+  return function(i) {
+    var TSC = (new Date().getTime() - i) / 1000;
+
+    var secYear = 31536000, secMonth = 2678400, secWeek = 604800,
+        secDay = 86400, secHour = 3600, secMin = 60;
+
+    return Math.floor(TSC /
+        (TSC > secWeek && secWeek ||
+        TSC > secDay && secDay ||
+        TSC > secHour && secHour ||
+        TSC > secMin && secMin || 1))
+        +
+        (TSC > secWeek && 'w' ||
+        TSC > secDay && 'd' ||
+        TSC > secHour && 'h' ||
+        TSC > secMin && 'm' || 's');
   };
 });
