@@ -123,7 +123,7 @@
       <div ui-view autoscroll="false"></div>
     </div>
     <script>
-      if (isIOS || !window.speechSynthesis) {
+      if (!window.speechSynthesis) {
         document.write('\<script src=\"js/mespeak.js\"\>\<\/script\>')
       }
     </script>
@@ -157,19 +157,23 @@
           }
 
           bootstrapAngular()
-          window.webintent.getUri(function(uri) {
+          webintent.getUri(function(uri) {
             if (!/^http/.test(uri)) return;
             var workoutId = /^(?:[^\/]*(?:\/(?:\/[^\/]*\/?)?)?([^?]+)(?:\??.+)?)$/.exec(uri)[1];
-            window.location.replace('#/' + workoutId);
+            location.replace('#/' + workoutId);
           }, false);
         });
       } else {
         bootstrapAngular();
       }
 
-      if (meSpeak) {
+      if (window.meSpeak) {
         meSpeak.loadConfig("js/mespeak_config.json");
         meSpeak.loadVoice('js/en-us.json');
+      }
+
+      function handleOpenURL(url) {
+        location.replace('#/' + url.replace(/^(workout\:\/\/)/, ''));
       }
     </script>
   </body>
