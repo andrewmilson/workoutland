@@ -20,6 +20,10 @@ function($scope, $timeout, $state, $http, $rootScope) {
     }
   }
 
+  $scope.openGoogle = function(query) {
+    window.open('https://www.google.co.nz/search?tbm=isch&q=' + encodeURIComponent(query));
+  }
+
   $scope.$on('$locationChangeStart', function(event) {
     annyang && annyang.abort();
 
