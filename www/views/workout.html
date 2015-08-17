@@ -84,7 +84,7 @@
     <li class="step" ng-click="goToStep($index, false, $event)" ng-class="{current: meta.playing && $index == meta.current, time: step.time, reps: step.reps}" ng-repeat="step in workout.steps">
       <div class="info">
         <h3>
-          {{ step.name }} <span class="step-number">#{{ $index + 1 }}</span>
+          {{ step.name }} <a class="step-number" ng-click="openGoogle(step.name)">?</a> <span class="step-number">#{{ $index + 1 }}</span>
           <br>
           <small class="light-text">
             <span ng-if="step.time >= 0 || step.reps >= 0">
