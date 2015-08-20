@@ -3,7 +3,7 @@ angular.module('workoutController', [])
 .controller('workoutController',
 ['$scope', '$timeout', '$state', '$http', '$rootScope',
 function($scope, $timeout, $state, $http, $rootScope) {
-  var workout, steps;
+  var workout, steps, userAdded;
 
   var speak = function(text) {
     if (!settings.TTS) return;
@@ -40,47 +40,70 @@ function($scope, $timeout, $state, $http, $rootScope) {
     paused: false
   };
 
-  var handleStepDurationDifficulty = function(step, newVal, oldVal) {
+  var handleStepDurationDifficulty = function(step, newer, older) {
     if (step.time < 0 || step.reps < 0) {
       step.toFailure = true;
     } else {
-      step.time = step.time / oldVal * newVal || 0;
-      step.reps = step.reps / oldVal * newVal || 0;
+      step.time = step.time / older * newer || 0;
+      step.reps = step.reps / older * newer || 0;
       step.displayReps = Math.round(step.reps);
       step.displayTime = Math.round(step.time);
     }
   }
 
-  var handleDifficulty = function(newVal, oldVal) {
-    newVal = newVal || 1;
-    oldVal = oldVal || 1;
+  var handleDifficulty = function(newer, older) {
+    newer = newer || 1;
+    older = older || 1;
     if (!workout) return;
-    meta.progress = Math.floor(meta.progress / oldVal * newVal);
+    meta.progress = Math.floor(meta.progress / newer * older);
     workout.time = 0;
+
     steps.forEach(function(a) {
-      handleStepDurationDifficulty(a, newVal, oldVal);
+      handleStepDurationDifficulty(a, newer, older);
       workout.time += (a.toFailure && 30) || a.time || a.reps * 5 + 20;
     });
+
+    userAdded.stepDurations.forEach(function(step) {
+      handleStepDurations(step, step);
+    });
+
     workout.time = Math.round($scope.workout.time);
   }
 
-  $scope.changeDuration = function(e, i, amount) {
-    var step = steps[i];
-    step[step.time ? 'time' : 'reps'] += amount;
-    console.log(step);
-    handleStepDurationDifficulty(step, 1, 1);
-    console.log(step);
-    e.stopPropagation();
-  };
+  var handleStepWeights = function(newer, older) {
+    newer.mostWeight = 0;
 
-  var handleStepWeightDifficulty = function(oldVal, newVal) {
     steps.forEach(function(step) {
-      if (step.name == oldVal.name) {
-        step.weight = step.weight / newVal.difficulty * oldVal.difficulty || 0;
-        step.displayWeight = Math.round(
-          step.weight * (settings.unit == 'lbs' ? 2.20462 : 1)
-        );
+      if (step.name.toLowerCase() != older.name.toLowerCase()) return;
+      step.weight = step.weight / older.scale * newer.scale || 0;
+      step.displayWeight = Math.round(
+        step.weight * (settings.unit == 'lbs' ? 2.20462 : 1));
+
+      if (step.displayWeight > newer.mostWeight) newer.mostWeight = step.displayWeight;
+    });
+  }
+
+  var handleStepDurations = function(newer, older) {
+    newer.mostTime = 0;
+    newer.mostReps = 0;
+    workout.time = 0;
+
+    steps.forEach(function(step) {
+      if (step.name.toLowerCase() == older.name.toLowerCase()) {
+        if (step.time < 0 || step.reps < 0) {
+          step.toFailure = true;
+        } else {
+          step.time = step.time / older.scale * newer.scale || 0;
+          step.reps = step.reps / older.scale * newer.scale || 0;
+          step.displayReps = Math.round(step.reps);
+          step.displayTime = Math.round(step.time);
+        }
+
+        if (step.displayReps > newer.mostReps) newer.mostReps = step.displayReps;
+        if (step.displayTime > newer.mostTime) newer.mostTime = step.displayTime;
       }
+
+      workout.time += (step.toFailure && 30) || step.time || step.reps * 5 + 20;
     });
   }
 
@@ -115,9 +138,9 @@ function($scope, $timeout, $state, $http, $rootScope) {
 
   annyang && annyang.addCommands(commands);
 
-  $rootScope.$watch('settings', function(newVal, oldVal) {
+  $rootScope.$watch('settings', function(newer, older) {
     if (annyang) {
-      if (newVal.voiceControl) {
+      if (newer.voiceControl) {
         annyang.addCommands(commands);
         annyang.start();
       } else {
@@ -137,24 +160,38 @@ function($scope, $timeout, $state, $http, $rootScope) {
     workout = $scope.workout = workoutInfo;
     steps = workout.steps;
 
-    workout.difficulty = workout.difficulty || 1;
-    handleDifficulty(workout.difficulty, workout.difficulty)
+    workout.userAdded = workout.userAdded || {
+      difficulty: 1,
+      stepDurations: [],
+      stepWeights: []
+    };
 
-    workout.stepDifficulty = [];
-    workout.steps.forEach(function(step) {
-      if (!step.weight) return;
-      for (var i = 0; i < workout.stepDifficulty.length; i++) {
-        if (workout.stepDifficulty[i].name.toLowerCase() === step.name.toLowerCase()) return;
-      }
+    userAdded = workout.userAdded
 
-      workout.stepDifficulty.push({
+    steps.forEach(function(step) {
+      for (var i in userAdded.stepDurations)
+        if (userAdded.stepDurations[i].name.toLowerCase()
+          == step.name.toLowerCase()) return;
+
+      userAdded.stepDurations.push({
         name: step.name,
-        difficulty: 1
+        scale: 1
+      });
+
+      if (step.weight) userAdded.stepWeights.push({
+        name: step.name,
+        scale: 1
       });
     });
 
-    workout.stepDifficulty.forEach(function(step, i) {
-      $scope.$watch('workout.stepDifficulty[' + i + ']', handleStepWeightDifficulty, true);
+    userAdded.stepDurations.forEach(function(step, i) {
+      $scope.$watch('workout.userAdded.stepDurations[' + i + ']',
+        handleStepDurations, true);
+    });
+
+    userAdded.stepWeights.forEach(function(step, i) {
+      $scope.$watch('workout.userAdded.stepWeights[' + i + ']',
+        handleStepWeights, true);
     });
 
     if (workout && !localStorage['workout-' + $state.params.id]) {
@@ -211,12 +248,11 @@ function($scope, $timeout, $state, $http, $rootScope) {
     }
   };
 
-  $scope.$watch('workout.difficulty', handleDifficulty);
+  $scope.$watch('workout.userAdded.difficulty', handleDifficulty);
 
   $scope.getWorkout();
 
   var progressTimeout;
-  var beep = document.getElementById('beep');
 
   var update = function(TextToSpeech) {
     var time = 0;
