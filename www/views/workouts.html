@@ -22,8 +22,8 @@
     <a wl-href="/{{ workout.id }}">
       <div class="col-12">
         <h3>
-          <span class="title">{{ workout.name }}</span>
-          <small class="light-text">
+          <span class="title list-title">{{ workout.name }}</span>
+          <small class="light-text list-meta">
             <span ng-if="workout.sample"><span class="text-danger">sample</span> - </span>
             <span>{{ workout.time / 60 | round }}m </span>
             <span ng-hide="workout.temp"> - {{ website }}/{{ workout.id }}</span>
