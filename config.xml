@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget
   id="com.andrewmilson.workoutland"
-  version="1.1"
-  android-versionCode="3"
+  version="1.2"
+  android-versionCode="4"
   xmlns="http://www.w3.org/ns/widgets"
   xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Workout Land</name>
@@ -54,11 +54,13 @@
 
     <plugin name="cordova-plugin-whitelist" version="1" />
 
+    <preference name="AndroidLaunchMode" value="singleTask" />
     <preference name="Orientation" value="portrait"/>
     <preference name="webviewbounce" value="true"/>
     <preference name="disallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="OpenAllExternalURLsInWebView" value="true" />
 
     <access origin="geo:*" launch-external="yes"/>
     <access origin="mailto:*" launch-external="yes"/>

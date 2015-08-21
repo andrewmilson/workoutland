@@ -5,19 +5,17 @@
     },
     "config_munge": {
         "files": {
-            "config.xml": {
-                "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"TTS\"><param name=\"android-package\" value=\"com.wordsbaking.cordova.tts.TTS\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
             "res/xml/config.xml": {
                 "parents": {
                     "/*": [
+                        {
+                            "xml": "<feature name=\"WebIntent\"><param name=\"android-package\" value=\"com.borismus.webintent.WebIntent\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"androidstatusbarcolor\"><param name=\"android-package\" value=\"com.internrocket.plugins.statusbarcolor.StatusBarColor\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
                         {
                             "xml": "<feature name=\"Vibration\"><param name=\"android-package\" value=\"org.apache.cordova.vibration.Vibration\" /></feature>",
                             "count": 1
@@ -28,6 +26,14 @@
                         },
                         {
                             "xml": "<feature name=\"androidwear\"><param name=\"android-package\" value=\"net.trentgardner.cordova.androidwear.AndroidWearPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"LaunchMyApp\"><param name=\"android-package\" value=\"nl.xservices.plugins.LaunchMyApp\" /></feature>",
                             "count": 1
                         },
                         {
@@ -47,19 +53,17 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
+                            "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
                             "count": 1
-                        },
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
                         {
-                            "xml": "<feature name=\"androidstatusbarcolor\"><param name=\"android-package\" value=\"com.internrocket.plugins.statusbarcolor.StatusBarColor\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"WebIntent\"><param name=\"android-package\" value=\"com.borismus.webintent.WebIntent\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"LaunchMyApp\"><param name=\"android-package\" value=\"nl.xservices.plugins.LaunchMyApp\" /></feature>",
+                            "xml": "<feature name=\"TTS\"><param name=\"android-package\" value=\"com.wordsbaking.cordova.tts.TTS\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -79,16 +83,16 @@
                             "count": 1
                         }
                     ],
-                    "/*": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 2
-                        }
-                    ],
                     "/*/application/activity": [
                         {
                             "xml": "<intent-filter><data android:scheme=\"workout\" /><action android:name=\"android.intent.action.VIEW\" /><category android:name=\"android.intent.category.DEFAULT\" /><category android:name=\"android.intent.category.BROWSABLE\" /></intent-filter>",
                             "count": 1
+                        }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 2
                         }
                     ]
                 }
@@ -96,6 +100,12 @@
         }
     },
     "installed_plugins": {
+        "com.borismus.webintent": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "com.internrocket.plugins.statusbarcolor": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
         "com.wordsbaking.cordova.tts": {
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         },
@@ -106,6 +116,13 @@
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         },
         "net.trentgardner.cordova.androidwear": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "nl.x-services.plugins.insomnia": {
+            "PACKAGE_NAME": "com.andrewmilson.workoutland"
+        },
+        "nl.x-services.plugins.launchmyapp": {
+            "URL_SCHEME": "workout",
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         },
         "nl.x-services.plugins.socialsharing": {
@@ -120,17 +137,7 @@
         "org.apache.cordova.statusbar": {
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         },
-        "nl.x-services.plugins.insomnia": {
-            "PACKAGE_NAME": "com.andrewmilson.workoutland"
-        },
-        "com.internrocket.plugins.statusbarcolor": {
-            "PACKAGE_NAME": "com.andrewmilson.workoutland"
-        },
-        "com.borismus.webintent": {
-            "PACKAGE_NAME": "com.andrewmilson.workoutland"
-        },
-        "nl.x-services.plugins.launchmyapp": {
-            "URL_SCHEME": "workout",
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.andrewmilson.workoutland"
         }
     },

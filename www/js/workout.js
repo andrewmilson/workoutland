@@ -5,6 +5,10 @@ angular.module('workoutController', [])
 function($scope, $timeout, $state, $http, $rootScope) {
   var workout, steps, userAdded;
 
+  var saveWorkout = function() {
+    localStorage['workout-' + workout.id] = JSON.stringify(workout);
+  };
+
   var speak = function(text) {
     if (!settings.TTS) return;
     if (isApp) {
@@ -21,11 +25,13 @@ function($scope, $timeout, $state, $http, $rootScope) {
   }
 
   $scope.openGoogle = function(query) {
-    window.open('https://www.google.co.nz/search?tbm=isch&q=' + encodeURIComponent(query));
+    window.open('https://www.google.co.nz/search?tbm=isch&q=' + encodeURIComponent(query), '_system');
   }
 
   $scope.$on('$locationChangeStart', function(event) {
     annyang && annyang.abort();
+
+    saveWorkout();
 
     if (isApp) {
       window.plugins.insomnia.allowSleepAgain();
@@ -222,6 +228,8 @@ function($scope, $timeout, $state, $http, $rootScope) {
       });
     }
 
+    setInterval(saveWorkout, 5000);
+
     return workout;
   }
 
@@ -382,7 +390,7 @@ function($scope, $timeout, $state, $http, $rootScope) {
 
   $scope.startWorkout = function() {
     workout.lastPlayed = new Date().getTime();
-    localStorage['workout-' + workout.id] = JSON.stringify(workout);
+    saveWorkout();
     $scope.meta.current = -1;
     $scope.meta.progress = 0;
     $scope.meta.playing = true;
