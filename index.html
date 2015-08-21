@@ -40,6 +40,16 @@
 
       updateSettings();
 
+      function handleOpenURL(url) {
+        if (/^http/.test(url)) {
+          location.replace('#/' + /^(?:[^\/]*(?:\/(?:\/[^\/]*\/?)?)?([^?]+)(?:\??.+)?)$/.exec(url)[1]);
+        } else {
+          location.replace('#/' + url.replace(/^(workout\:\/\/)/, ''));
+        }
+      }
+
+      window.handleWebURL = handleOpenURL;
+
       document.write(isApp ? '' : '\<base href=\"/\"\>')
       document.write((isApp || isLocalhost ? [
         'bower_components/angular/angular.min.js',
@@ -131,6 +141,12 @@
     </script>
     <script>
       $(function() {
+        $(document).on('click', 'a[target="_blank"]', function(ev) {
+          ev.preventDefault();
+          var url = $(this).attr('href');
+          window.open(url, '_system');
+        });
+
         FastClick.attach(document.body);
       });
 
@@ -146,6 +162,8 @@
 
       if (isApp) {
         document.addEventListener('deviceready', function() {
+          window.plugins.webintent.onNewIntent(handleOpenURL);
+
           if (cordova.platformId == 'android') {
             StatusBar.backgroundColorByHexString('#582A87');
 
@@ -157,11 +175,6 @@
           }
 
           bootstrapAngular();
-          webintent.getUri(function(uri) {
-            if (!/^http/.test(uri)) return;
-            var workoutId = /^(?:[^\/]*(?:\/(?:\/[^\/]*\/?)?)?([^?]+)(?:\??.+)?)$/.exec(uri)[1];
-            location.replace('#/' + workoutId);
-          });
         });
       } else {
         bootstrapAngular();
@@ -170,10 +183,6 @@
       if (window.meSpeak) {
         meSpeak.loadConfig("js/mespeak_config.json");
         meSpeak.loadVoice('js/en-us.json');
-      }
-
-      function handleOpenURL(url) {
-        location.replace('#/' + url.replace(/^(workout\:\/\/)/, ''));
       }
     </script>
   </body>

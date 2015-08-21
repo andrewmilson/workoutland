@@ -36,7 +36,7 @@
             <span ng-if="!workout.sample" ng-click="deleteWorkout()"> - delete</span>
           </small>
           <div class="light-text">
-            <small ng-show="workout.notes" class="notes" ng-bind-html="workout.notes | linky:'_system'"></small>
+            <small ng-show="workout.notes" class="notes" ng-bind-html="workout.notes | linky:'_blank'"></small>
             <br>
             <small ng-hide="isApp">
               <label for="voice-control-settings">
